@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập hàng - Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: var(--primary-color);
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-logout {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+
+        /* Import Methods */
+        .import-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .method-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .method-card.active {
+            border-color: var(--primary-color);
+            background: #f8fff9;
+        }
+
+        .method-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+
+        .method-icon.excel { background: #217346; }
+        .method-icon.scan { background: #3498db; }
+        .method-icon.manual { background: #e67e22; }
+
+        /* Import Form */
+        .import-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 140, 77, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background: #f8fff9;
+        }
+
+        .file-upload i {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        /* Barcode Scanner */
+        .barcode-scanner {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .scanner-preview {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: #000;
+            border-radius: 8px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Product List */
+        .product-list {
+            margin-top: 20px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h4 {
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .product-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .price-input {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: right;
+        }
+
+        .btn-remove {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        /* Import History */
+        .import-history {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-view {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-edit {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .pagination {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .page-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Auto-suggestions */
+        .auto-suggestions {
+            background: #e8f5e9;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .suggestion-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #d4edda;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar-header h2, .sidebar-header p, .menu-item span {
+                display: none;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+            .import-methods {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .search-box input {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>NHÀ THUỐC ONLINE</h2>
+            <p>Hệ thống quản trị</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="./dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="./products.html" class="menu-item">
+                <i class="fas fa-pills"></i>
+                <span>Sản phẩm</span>
+            </a>
+            <a href="./categories.html" class="menu-item">
+                <i class="fas fa-tags"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="./orders.html" class="menu-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Đơn hàng</span>
+            </a>
+            <a href="./customers.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Khách hàng</span>
+            </a>
+            <a href="./import-products.html" class="menu-item active">
+                <i class="fas fa-upload"></i>
+                <span>Nhập hàng</span>
+            </a>
+            <a href="./stock.html" class="menu-item">
+                <i class="fas fa-boxes"></i>
+                <span>Tồn kho</span>
+            </a>
+            <a href="./prices.html" class="menu-item">
+                <i class="fas fa-tag"></i>
+                <span>Giá bán</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Nhập hàng</h1>
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <span>Xin chào, Admin</span>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- Import Methods -->
+        <div class="import-methods">
+            <div class="method-card active" onclick="setImportMethod('excel')">
+                <div class="method-icon excel">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+                <h3>Import Excel</h3>
+                <p>Upload file Excel để nhập hàng nhanh</p>
+            </div>
+            <div class="method-card" onclick="setImportMethod('scan')">
+                <div class="method-icon scan">
+                    <i class="fas fa-barcode"></i>
+                </div>
+                <h3>Quét mã vạch</h3>
+                <p>Quét mã vạch sản phẩm tự động</p>
+            </div>
+            <div class="method-card" onclick="setImportMethod('manual')">
+                <div class="method-icon manual">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h3>Nhập thủ công</h3>
+                <p>Thêm sản phẩm từng cái một</p>
+            </div>
+        </div>
+
+        <!-- Auto Suggestions -->
+        <div class="auto-suggestions" id="autoSuggestions" style="display: none;">
+            <h4><i class="fas fa-lightbulb"></i> Đề xuất nhập hàng</h4>
+            <div id="suggestionsList">
+                <!-- Suggestions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Import Form -->
+        <div class="import-form">
+            <h2>Phiếu nhập hàng mới</h2>
+            <form id="importForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supplier">Nhà cung cấp *</label>
+                        <select id="supplier" class="form-control" required>
+                            <option value="">Chọn nhà cung cấp</option>
+                            <option value="supplier1">Công ty Dược phẩm A</option>
+                            <option value="supplier2">Công ty Dược phẩm B</option>
+                            <option value="supplier3">Công ty Thiết bị Y tế C</option>
+                            <option value="supplier4">Công ty Dược phẩm D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="importDate">Ngày nhập *</label>
+                        <input type="datetime-local" id="importDate" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="invoiceNumber">Số hóa đơn</label>
+                        <input type="text" id="invoiceNumber" class="form-control" placeholder="Nhập số hóa đơn">
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Phương thức thanh toán</label>
+                        <select id="paymentMethod" class="form-control">
+                            <option value="cash">Tiền mặt</option>
+                            <option value="transfer">Chuyển khoản</option>
+                            <option value="credit">Ghi nợ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Excel Import Section -->
+                <div class="form-section" id="excelSection">
+                    <h4><i class="fas fa-file-excel"></i> Import từ Excel</h4>
+                    <div class="file-upload" onclick="document.getElementById('excelFile').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Kéo thả file Excel vào đây hoặc click để chọn</h4>
+                        <p>Hỗ trợ file .xlsx, .xls (Tối đa 10MB)</p>
+                        <input type="file" id="excelFile" accept=".xlsx,.xls" onchange="handleExcelUpload(this)">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn" onclick="downloadTemplate()">
+                            <i class="fas fa-download"></i> Tải template mẫu
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Barcode Scanner Section -->
+                <div class="form-section" id="scanSection" style="display: none;">
+                    <h4><i class="fas fa-barcode"></i> Quét mã vạch</h4>
+                    <div class="barcode-scanner">
+                        <div class="scanner-preview">
+                            <div style="text-align: center;">
+                                <i class="fas fa-camera fa-3x"></i>
+                                <p>Khởi động camera để quét mã vạch</p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="startBarcodeScanner()">
+                            <i class="fas fa-camera"></i> Bật camera
+                        </button>
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label>Hoặc nhập mã vạch thủ công</label>
+                            <input type="text" id="barcodeInput" class="form-control" placeholder="Nhập mã vạch sản phẩm" onkeypress="handleBarcodeInput(event)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Input Section -->
+                <div class="form-section" id="manualSection" style="display: none;">
+                    <h4><i class="fas fa-edit"></i> Nhập thủ công</h4>
+                    <div class="form-group">
+                        <label for="productSearch">Tìm sản phẩm</label>
+                        <input type="text" id="productSearch" class="form-control" placeholder="Nhập tên sản phẩm để tìm kiếm..." onkeyup="searchProducts(this.value)">
+                        <div id="searchResults" style="display: none; margin-top: 10px; border: 1px solid #ddd; border-radius: 5px; max-height: 200px; overflow-y: auto;">
+                            <!-- Search results will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product List -->
+                <div class="form-group">
+                    <label>Danh sách sản phẩm nhập</label>
+                    <div id="productList" class="product-list">
+                        <!-- Products will be added here -->
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="summary-card">
+                    <h4>Tổng quan đơn nhập</h4>
+                    <div class="summary-row">
+                        <span>Số lượng sản phẩm:</span>
+                        <span id="totalProductsCount">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tổng số lượng:</span>
+                        <span id="totalQuantity">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tổng giá trị:</span>
+                        <span id="totalValue">0đ</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Ghi chú</label>
+                    <textarea id="notes" class="form-control" rows="3" placeholder="Ghi chú cho phiếu nhập hàng..."></textarea>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Lưu phiếu nhập hàng
+                    </button>
+                    <button type="button" class="btn" onclick="clearForm()">
+                        <i class="fas fa-redo"></i> Làm mới
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="saveAsDraft()">
+                        <i class="fas fa-file-alt"></i> Lưu nháp
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Import History -->
+        <div class="import-history">
+            <div class="table-header">
+                <h2>Lịch sử nhập hàng</h2>
+                <div class="search-box">
+                    <input type="text" id="historySearch" placeholder="Tìm kiếm theo mã phiếu...">
+                    <button class="btn btn-primary" onclick="exportImportHistory()">
+                        <i class="fas fa-file-export"></i> Xuất báo cáo
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã phiếu</th>
+                            <th>Nhà cung cấp</th>
+                            <th>Ngày nhập</th>
+                            <th>Số lượng SP</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Người nhập</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="importHistoryBody">
+                        <!-- History will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <div class="pagination-info">
+                    Hiển thị 1-5 của 45 phiếu nhập
+                </div>
+                <div class="pagination-controls">
+                    <button class="page-btn">‹</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">›</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi tiết sản phẩm</h3>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- Modal content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Biến toàn cục
+        let importProducts = [];
+        let currentImportMethod = 'excel';
+        let suppliers = [];
+        let productDatabase = [];
+
+        // Hàm khởi tạo dữ liệu
+        function initializeData() {
+            // Dữ liệu nhà cung cấp
+            suppliers = [
+                { id: 'supplier1', name: 'Công ty Dược phẩm A', contact: '0123456789' },
+                { id: 'supplier2', name: 'Công ty Dược phẩm B', contact: '0123456790' },
+                { id: 'supplier3', name: 'Công ty Thiết bị Y tế C', contact: '0123456791' }
+            ];
+
+            // Dữ liệu sản phẩm mẫu
+            productDatabase = [
+                {
+                    id: 1,
+                    name: 'Vitamin C 1000mg',
+                    sku: 'VC1000',
+                    barcode: '1234567890123',
+                    category: 'Thực phẩm chức năng',
+                    currentStock: 45,
+                    minStock: 10,
+                    price: 150000,
+                    cost: 120000
+                },
+                {
+                    id: 2,
+                    name: 'Máy đo huyết áp Omron',
+                    sku: 'OMRON-HBP',
+                    barcode: '1234567890124',
+                    category: 'Vật phẩm y tế',
+                    currentStock: 23,
+                    minStock: 5,
+                    price: 450000,
+                    cost: 380000
+                },
+                {
+                    id: 3,
+                    name: 'Panadol Extra',
+                    sku: 'PEXTRA',
+                    barcode: '1234567890125',
+                    category: 'Thuốc không kê đơn',
+                    currentStock: 5,
+                    minStock: 20,
+                    price: 80000,
+                    cost: 60000
+                }
+            ];
+
+            // Khởi tạo ngày nhập mặc định
+            const now = new Date();
+            document.getElementById('importDate').value = now.toISOString().slice(0, 16);
+
+            // Load auto suggestions
+            loadAutoSuggestions();
+        }
+
+        // Hàm thiết lập phương thức nhập
+        function setImportMethod(method) {
+            currentImportMethod = method;
+            
+            // Cập nhật UI
+            document.querySelectorAll('.method-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Hiển thị section tương ứng
+            document.getElementById('excelSection').style.display = method === 'excel' ? 'block' : 'none';
+            document.getElementById('scanSection').style.display = method === 'scan' ? 'block' : 'none';
+            document.getElementById('manualSection').style.display = method === 'manual' ? 'block' : 'none';
+        }
+
+        // Hàm xử lý upload Excel
+        function handleExcelUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                // Hiển thị loading
+                const uploadArea = input.parentElement;
+                uploadArea.innerHTML = `
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <h4>Đang xử lý file...</h4>
+                    <p>${file.name}</p>
+                `;
+                
+                // Mô phỏng xử lý file
+                setTimeout(() => {
+                    // Thêm sản phẩm mẫu từ Excel
+                    addProductFromExcel();
+                    uploadArea.innerHTML = `
+                        <i class="fas fa-check-circle fa-2x" style="color: #28a745;"></i>
+                        <h4>Import thành công!</h4>
+                        <p>Đã thêm ${importProducts.length} sản phẩm từ file Excel</p>
+                    `;
+                }, 2000);
+            }
+        }
+
+        // Hàm thêm sản phẩm từ Excel
+        function addProductFromExcel() {
+            // Dữ liệu mẫu từ Excel
+            const excelData = [
+                { id: 1, name: 'Vitamin C 1000mg', quantity: 50, cost: 120000 },
+                { id: 2, name: 'Máy đo huyết áp Omron', quantity: 10, cost: 380000 },
+                { id: 4, name: 'Canxi & Vitamin D3', quantity: 30, cost: 95000 }
+            ];
+            
+            excelData.forEach(item => {
+                const existingIndex = importProducts.findIndex(p => p.id === item.id);
+                if (existingIndex === -1) {
+                    importProducts.push({
+                        ...item,
+                        importQuantity: item.quantity,
+                        importCost: item.cost
+                    });
+                }
+            });
+            
+            renderProductList();
+        }
+
+        // Hàm tải template
+        function downloadTemplate() {
+            alert('Đang tải template mẫu...');
+            // Logic tải template Excel
+        }
+
+        // Hàm bật scanner mã vạch
+        function startBarcodeScanner() {
+            alert('Đang khởi động camera...');
+            // Logic quét mã vạch sẽ được triển khai ở đây
+        }
+
+        // Hàm xử lý nhập mã vạch
+        function handleBarcodeInput(event) {
+            if (event.key === 'Enter') {
+                const barcode = event.target.value;
+                if (barcode) {
+                    // Tìm sản phẩm theo mã vạch
+                    const product = productDatabase.find(p => p.barcode === barcode);
+                    if (product) {
+                        addProductToImport(product);
+                        event.target.value = '';
+                    } else {
+                        alert('Không tìm thấy sản phẩm với mã vạch này!');
+                    }
+                }
+            }
+        }
+
+        // Hàm tìm kiếm sản phẩm
+        function searchProducts(query) {
+            const resultsContainer = document.getElementById('searchResults');
+            if (query.length < 2) {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+            
+            const results = productDatabase.filter(product => 
+                product.name.toLowerCase().includes(query.toLowerCase()) ||
+                product.sku.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            if (results.length > 0) {
+                resultsContainer.innerHTML = results.map(product => `
+                    <div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" 
+                         onclick="addProductToImport(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                        <div style="font-weight: 500;">${product.name}</div>
+                        <div style="font-size: 12px; color: #666;">SKU: ${product.sku} | Tồn: ${product.currentStock}</div>
+                    </div>
+                `).join('');
+                resultsContainer.style.display = 'block';
+            } else {
+                resultsContainer.style.display = 'none';
+            }
+        }
+
+        // Hàm thêm sản phẩm vào danh sách nhập
+        function addProductToImport(product) {
+            const existingIndex = importProducts.findIndex(p => p.id === product.id);
+            
+            if (existingIndex === -1) {
+                importProducts.push({
+                    ...product,
+                    importQuantity: 1,
+                    importCost: product.cost
+                });
+            } else {
+                importProducts[existingIndex].importQuantity += 1;
+            }
+            
+            renderProductList();
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('productSearch').value = '';
+        }
+
+        // Hàm render danh sách sản phẩm
+        function renderProductList() {
+            const container = document.getElementById('productList');
+            const totalProducts = document.getElementById('totalProductsCount');
+            const totalQuantity = document.getElementById('totalQuantity');
+            const totalValue = document.getElementById('totalValue');
+            
+            container.innerHTML = '';
+            
+            let totalQty = 0;
+            let totalVal = 0;
+            
+            importProducts.forEach((product, index) => {
+                const productElement = document.createElement('div');
+                productElement.className = 'product-item';
+                productElement.innerHTML = `
+                    <div class="product-info">
+                        <h4>${product.name}</h4>
+                        <p>SKU: ${product.sku} | Tồn kho: ${product.currentStock} | Giá nhập: ${formatPrice(product.importCost)}</p>
+                    </div>
+                    <div class="quantity-control">
+                        <input type="number" class="quantity-input" value="${product.importQuantity}" min="1" 
+                               onchange="updateProductQuantity(${index}, this.value)">
+                        <input type="number" class="price-input" value="${product.importCost}" 
+                               onchange="updateProductCost(${index}, this.value)" placeholder="Giá nhập">
+                        <button type="button" class="btn-remove" onclick="removeProduct(${index})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(productElement);
+                
+                totalQty += parseInt(product.importQuantity);
+                totalVal += product.importQuantity * product.importCost;
+            });
+            
+            totalProducts.textContent = importProducts.length;
+            totalQuantity.textContent = totalQty;
+            totalValue.textContent = formatPrice(totalVal);
+        }
+
+        // Hàm cập nhật số lượng
+        function updateProductQuantity(index, quantity) {
+            importProducts[index].importQuantity = parseInt(quantity) || 1;
+            renderProductList();
+        }
+
+        // Hàm cập nhật giá
+        function updateProductCost(index, cost) {
+            importProducts[index].importCost = parseInt(cost) || 0;
+            renderProductList();
+        }
+
+        // Hàm xóa sản phẩm
+        function removeProduct(index) {
+            importProducts.splice(index, 1);
+            renderProductList();
+        }
+
+        // Hàm định dạng tiền
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', { 
+                style: 'currency', 
+                currency: 'VND' 
+            }).format(price);
+        }
+
+        // Hàm load đề xuất tự động
+        function loadAutoSuggestions() {
+            const lowStockProducts = productDatabase.filter(p => p.currentStock <= p.minStock);
+            
+            if (lowStockProducts.length > 0) {
+                const suggestionsContainer = document.getElementById('suggestionsList');
+                suggestionsContainer.innerHTML = lowStockProducts.map(product => `
+                    <div class="suggestion-item">
+                        <div>
+                            <strong>${product.name}</strong>
+                            <div style="font-size: 12px; color: #666;">
+                                Tồn kho: ${product.currentStock} (Tối thiểu: ${product.minStock})
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="addProductToImport(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                            <i class="fas fa-plus"></i> Thêm
+                        </button>
+                    </div>
+                `).join('');
+                
+                document.getElementById('autoSuggestions').style.display = 'block';
+            }
+        }
+
+        // Hàm xử lý form
+        document.getElementById('importForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (importProducts.length === 0) {
+                alert('Vui lòng thêm ít nhất một sản phẩm!');
+                return;
+            }
+            
+            // Hiển thị xác nhận
+            const totalValue = importProducts.reduce((sum, product) => sum + (product.importQuantity * product.importCost), 0);
+            
+            if (confirm(`Xác nhận lưu phiếu nhập hàng với ${importProducts.length} sản phẩm, tổng giá trị ${formatPrice(totalValue)}?`)) {
+                // Logic lưu phiếu nhập
+                alert('Phiếu nhập hàng đã được lưu thành công!');
+                clearForm();
+            }
+        });
+
+        // Hàm làm mới form
+        function clearForm() {
+            importProducts = [];
+            renderProductList();
+            document.getElementById('importForm').reset();
+            
+            // Reset ngày nhập
+            const now = new Date();
+            document.getElementById('importDate').value = now.toISOString().slice(0, 16);
+        }
+
+        // Hàm lưu nháp
+        function saveAsDraft() {
+            if (importProducts.length === 0) {
+                alert('Không có sản phẩm nào để lưu!');
+                return;
+            }
+            
+            // Logic lưu nháp
+            alert('Đã lưu phiếu nhập hàng vào danh sách nháp!');
+        }
+
+        // Hàm xuất lịch sử
+        function exportImportHistory() {
+            alert('Đang xuất báo cáo lịch sử nhập hàng...');
+        }
+
+        // Khởi chạy khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('adminUsername') || 'Admin';
+            document.querySelector('.user-avatar').textContent = username.charAt(0).toUpperCase();
+            document.querySelector('.user-info span').textContent = `Xin chào, ${username}`;
+            
+            initializeData();
+            renderImportHistory();
+        });
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminUsername');
+            window.location.href = './admin-login.html';
+        }
+
+        // Hàm render lịch sử nhập hàng
+        function renderImportHistory() {
+            const historyData = [
+                {
+                    code: 'PN-001234',
+                    supplier: 'Công ty Dược phẩm A',
+                    date: '2023-12-15',
+                    productCount: 5,
+                    total: 12450000,
+                    status: 'completed',
+                    user: 'Admin'
+                },
+                {
+                    code: 'PN-001233',
+                    supplier: 'Công ty Thiết bị Y tế C',
+                    date: '2023-12-14',
+                    productCount: 3,
+                    total: 8760000,
+                    status: 'completed',
+                    user: 'Admin'
+                }
+            ];
+            
+            const tbody = document.getElementById('importHistoryBody');
+            tbody.innerHTML = historyData.map(item => `
+                <tr>
+                    <td>${item.code}</td>
+                    <td>${item.supplier}</td>
+                    <td>${new Date(item.date).toLocaleDateString('vi-VN')}</td>
+                    <td>${item.productCount}</td>
+                    <td>${formatPrice(item.total)}</td>
+                    <td><span class="status ${item.status}">${item.status === 'completed' ? 'Hoàn thành' : 'Chờ xử lý'}</span></td>
+                    <td>${item.user}</td>
+                    <td>
+                        <button class="btn-action btn-view">
+                            <i class="fas fa-eye"></i> Xem
+                        </button>
+                        <button class="btn-action btn-edit">
+                            <i class="fas fa-edit"></i> Sửa
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

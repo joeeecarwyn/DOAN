@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Danh mục - Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --primary-light: #e8f5e9;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --sidebar-width: 250px;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary-color: #38a169;
+            --primary-dark: #2d784d;
+            --primary-light: #2d3748;
+            --secondary-color: #4299e1;
+            --accent-color: #fc8181;
+            --light-color: #1a202c;
+            --dark-color: #f7fafc;
+            --text-color: #e2e8f0;
+            --text-light: #a0aec0;
+            --shadow: 0 5px 15px rgba(0,0,0,0.3);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--light-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark-color);
+            color: var(--text-color);
+            position: fixed;
+            height: 100vh;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .header {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Roboto', sans-serif;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-logout {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* Categories Layout */
+        .categories-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+
+        /* Categories Tree */
+        .categories-tree {
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            max-height: 600px;
+            overflow-y: auto;
+            transition: var(--transition);
+        }
+
+        .categories-tree:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tree-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tree-item {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+            background: var(--light-color);
+        }
+
+        .tree-item:hover {
+            background: var(--primary-light);
+            transform: translateX(5px);
+        }
+
+        .tree-item.active {
+            background: var(--primary-light);
+            border-left-color: var(--primary-color);
+        }
+
+        .tree-item-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tree-toggle {
+            width: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tree-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .tree-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .tree-item:hover .tree-icon {
+            transform: scale(1.1);
+        }
+
+        .tree-children {
+            margin-left: 35px;
+            display: none;
+        }
+
+        .tree-children.expanded {
+            display: block;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .category-card {
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .category-info h3 {
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .category-info p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .stat {
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .category-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #2980b9;
+        }
+
+        .btn-delete {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        /* Add Category Form */
+        .add-category-form {
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+        }
+
+        .add-category-form:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: var(--transition);
+            background: var(--light-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 140, 77, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Bulk Actions */
+        .bulk-actions {
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 25px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+        }
+
+        .bulk-actions.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--light-color);
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-hover);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .modal-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .close {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0,0,0,0.1);
+            transform: rotate(15deg);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-hover);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .categories-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories-tree {
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar-header h2, .sidebar-header p, .menu-item span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .bulk-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .category-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .category-actions {
+                flex-direction: column;
+            }
+            
+            .btn-action {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Fade-in animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" title="Chuyển đổi chế độ sáng/tối" style="position: fixed; top: 20px; right: 20px; z-index: 1001;">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>NHÀ THUỐC ONLINE</h2>
+            <p>Hệ thống quản trị</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="fas fa-pills"></i>
+                <span>Sản phẩm</span>
+            </a>
+            <a href="categories.html" class="menu-item active">
+                <i class="fas fa-tags"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Đơn hàng</span>
+            </a>
+            <a href="customers.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Khách hàng</span>
+            </a>
+            <a href="import-products.html" class="menu-item">
+                <i class="fas fa-upload"></i>
+                <span>Nhập hàng</span>
+            </a>
+            <a href="stock.html" class="menu-item">
+                <i class="fas fa-boxes"></i>
+                <span>Tồn kho</span>
+            </a>
+            <a href="prices.html" class="menu-item">
+                <i class="fas fa-tag"></i>
+                <span>Giá bán</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Quản lý Danh mục</h1>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">A</div>
+                <span id="userGreeting">Xin chào, Admin</span>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="bulk-actions" id="bulkActions">
+            <span id="selectedCategoriesCount">0 danh mục được chọn</span>
+            <button class="btn btn-warning" onclick="bulkUpdateCategories('active')">
+                <i class="fas fa-play"></i> Kích hoạt
+            </button>
+            <button class="btn" onclick="bulkUpdateCategories('inactive')">
+                <i class="fas fa-pause"></i> Tạm dừng
+            </button>
+            <button class="btn btn-danger" onclick="bulkDeleteCategories()">
+                <i class="fas fa-trash"></i> Xóa
+            </button>
+        </div>
+
+        <!-- Add Category Form -->
+        <div class="add-category-form">
+            <h2>Thêm danh mục mới</h2>
+            <form id="addCategoryForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="categoryName">Tên danh mục *</label>
+                        <input type="text" id="categoryName" class="form-control" placeholder="Nhập tên danh mục" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentCategory">Danh mục cha</label>
+                        <select id="parentCategory" class="form-control">
+                            <option value="">-- Không có --</option>
+                            <option value="1">Thực phẩm chức năng</option>
+                            <option value="2">Vật phẩm y tế</option>
+                            <option value="3">Thuốc kê đơn</option>
+                            <option value="4">Thuốc không kê đơn</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="categoryIcon">Biểu tượng *</label>
+                        <select id="categoryIcon" class="form-control" required>
+                            <option value="">Chọn biểu tượng</option>
+                            <option value="fa-pills">Thuốc viên</option>
+                            <option value="fa-capsules">Thuốc con nhộng</option>
+                            <option value="fa-stethoscope">Thiết bị y tế</option>
+                            <option value="fa-heartbeat">Sức khỏe tim mạch</option>
+                            <option value="fa-brain">Thần kinh</option>
+                            <option value="fa-baby">Chăm sóc trẻ em</option>
+                            <option value="fa-heart">Tim mạch</option>
+                            <option value="fa-lungs">Hô hấp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryStatus">Trạng thái *</label>
+                        <select id="categoryStatus" class="form-control" required>
+                            <option value="active">Hoạt động</option>
+                            <option value="inactive">Tạm dừng</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="categoryDescription">Mô tả</label>
+                    <textarea id="categoryDescription" class="form-control" rows="3" placeholder="Mô tả danh mục"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="categoryImage">Hình ảnh</label>
+                    <input type="file" id="categoryImage" class="form-control" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Thêm danh mục
+                </button>
+            </form>
+        </div>
+
+        <div class="categories-layout">
+            <!-- Categories Tree -->
+            <div class="categories-tree">
+                <div class="tree-header">
+                    <h3>Cây danh mục</h3>
+                    <button class="btn" onclick="expandAllCategories()">
+                        <i class="fas fa-expand"></i> Mở rộng tất cả
+                    </button>
+                </div>
+                <div id="categoriesTree">
+                    <!-- Categories tree will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Categories will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Detail Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi tiết danh mục</h3>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- Modal content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Thao tác thành công!</span>
+    </div>
+
+    <script>
+        // ==================== SYSTEM MANAGERS ====================
+
+        // Theme Manager
+        class ThemeManager {
+            static init() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                this.setTheme(savedTheme);
+                
+                document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+            }
+
+            static setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                // Update toggle icon
+                const icon = document.querySelector('.theme-toggle i');
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+
+            static toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                this.setTheme(newTheme);
+            }
+        }
+
+        // Notification Manager
+        class NotificationManager {
+            static show(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const notificationText = document.getElementById('notificationText');
+                const icon = notification.querySelector('i');
+                
+                notificationText.textContent = message;
+                
+                // Set icon based on type
+                if (type === 'success') {
+                    icon.className = 'fas fa-check-circle';
+                    notification.style.background = 'var(--primary-color)';
+                } else if (type === 'error') {
+                    icon.className = 'fas fa-exclamation-circle';
+                    notification.style.background = 'var(--accent-color)';
+                } else if (type === 'warning') {
+                    icon.className = 'fas fa-exclamation-triangle';
+                    notification.style.background = '#ffc107';
+                }
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Auth Manager
+        const AuthManager = {
+            isAdminLoggedIn: function() {
+                const adminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+                const adminUsername = localStorage.getItem('adminUsername');
+                const loginTime = localStorage.getItem('loginTime');
+                
+                return adminLoggedIn && adminUsername && loginTime && this.isSessionValid();
+            },
+            
+            getAdminInfo: function() {
+                return {
+                    username: localStorage.getItem('adminUsername') || '',
+                    loginTime: localStorage.getItem('loginTime') || ''
+                };
+            },
+            
+            adminLogin: function(username) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('adminUsername', username);
+                localStorage.setItem('loginTime', Date.now().toString());
+            },
+            
+            adminLogout: function() {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminUsername');
+                localStorage.removeItem('loginTime');
+            },
+            
+            isSessionValid: function() {
+                const loginTime = localStorage.getItem('loginTime');
+                if (!loginTime) return false;
+                
+                const loginTimestamp = parseInt(loginTime);
+                const currentTime = Date.now();
+                const twentyFourHours = 24 * 60 * 60 * 1000;
+                
+                return (currentTime - loginTimestamp) <= twentyFourHours;
+            }
+        };
+
+        // ==================== CATEGORY MANAGEMENT ====================
+
+        // Biến toàn cục
+        let categories = [];
+        let selectedCategories = new Set();
+
+        // Hàm khởi tạo dữ liệu danh mục
+        function initializeCategories() {
+            categories = [
+                {
+                    id: 1,
+                    name: 'Thực phẩm chức năng',
+                    description: 'Bổ sung dinh dưỡng và hỗ trợ sức khỏe',
+                    icon: 'fa-pills',
+                    status: 'active',
+                    parentId: null,
+                    productCount: 156,
+                    soldCount: 45,
+                    viewCount: 12000,
+                    image: null,
+                    children: [
+                        {
+                            id: 5,
+                            name: 'Vitamin & Khoáng chất',
+                            description: 'Bổ sung vitamin và khoáng chất thiết yếu',
+                            icon: 'fa-capsules',
+                            status: 'active',
+                            parentId: 1,
+                            productCount: 78,
+                            soldCount: 23,
+                            viewCount: 8000
+                        },
+                        {
+                            id: 6,
+                            name: 'Hỗ trợ tiêu hóa',
+                            description: 'Cải thiện hệ tiêu hóa',
+                            icon: 'fa-stomach',
+                            status: 'active',
+                            parentId: 1,
+                            productCount: 34,
+                            soldCount: 12,
+                            viewCount: 4500
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: 'Vật phẩm y tế',
+                    description: 'Dụng cụ và thiết bị chăm sóc sức khỏe',
+                    icon: 'fa-stethoscope',
+                    status: 'active',
+                    parentId: null,
+                    productCount: 89,
+                    soldCount: 23,
+                    viewCount: 8000
+                },
+                {
+                    id: 3,
+                    name: 'Thuốc kê đơn',
+                    description: 'Thuốc theo chỉ định của bác sĩ',
+                    icon: 'fa-file-prescription',
+                    status: 'active',
+                    parentId: null,
+                    productCount: 234,
+                    soldCount: 67,
+                    viewCount: 15000
+                },
+                {
+                    id: 4,
+                    name: 'Thuốc không kê đơn',
+                    description: 'Thuốc điều trị các bệnh thông thường',
+                    icon: 'fa-capsules',
+                    status: 'active',
+                    parentId: null,
+                    productCount: 178,
+                    soldCount: 89,
+                    viewCount: 20000
+                }
+            ];
+        }
+
+        // Hàm định dạng số
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // Hàm render cây danh mục
+        function renderCategoriesTree() {
+            const treeContainer = document.getElementById('categoriesTree');
+            treeContainer.innerHTML = '';
+
+            const rootCategories = categories.filter(cat => !cat.parentId);
+            
+            rootCategories.forEach(category => {
+                const treeItem = createTreeItem(category, 0);
+                treeContainer.appendChild(treeItem);
+            });
+
+            // Trigger fade-in animation
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-up').forEach(el => {
+                    el.style.opacity = 1;
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 100);
+        }
+
+        // Hàm tạo item cho cây
+        function createTreeItem(category, level) {
+            const item = document.createElement('div');
+            item.className = 'tree-item fade-in-up';
+            item.style.paddingLeft = (level * 20) + 'px';
+            
+            const hasChildren = category.children && category.children.length > 0;
+            
+            item.innerHTML = `
+                <div class="tree-item-content">
+                    ${hasChildren ? `
+                        <div class="tree-toggle" onclick="toggleTreeItem(this)">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    ` : '<div style="width: 20px;"></div>'}
+                    <div class="tree-icon">
+                        <i class="fas ${category.icon}"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 500;">${category.name}</div>
+                        <div style="font-size: 12px; color: var(--text-light);">${category.productCount} sản phẩm</div>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="category-checkbox" data-id="${category.id}" onchange="toggleCategorySelection(${category.id})">
+                    </div>
+                </div>
+            `;
+            
+            if (hasChildren) {
+                const childrenContainer = document.createElement('div');
+                childrenContainer.className = 'tree-children';
+                
+                category.children.forEach(child => {
+                    const childItem = createTreeItem(child, level + 1);
+                    childrenContainer.appendChild(childItem);
+                });
+                
+                item.appendChild(childrenContainer);
+            }
+            
+            return item;
+        }
+
+        // Hàm toggle mở/đóng item tree
+        function toggleTreeItem(element) {
+            const children = element.parentElement.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (children.classList.contains('expanded')) {
+                children.classList.remove('expanded');
+                icon.className = 'fas fa-chevron-right';
+            } else {
+                children.classList.add('expanded');
+                icon.className = 'fas fa-chevron-down';
+            }
+        }
+
+        // Hàm mở rộng tất cả
+        function expandAllCategories() {
+            document.querySelectorAll('.tree-children').forEach(children => {
+                children.classList.add('expanded');
+            });
+            document.querySelectorAll('.tree-toggle i').forEach(icon => {
+                icon.className = 'fas fa-chevron-down';
+            });
+        }
+
+        // Hàm render grid danh mục
+        function renderCategoriesGrid() {
+            const gridContainer = document.getElementById('categoriesGrid');
+            gridContainer.innerHTML = '';
+
+            categories.forEach(category => {
+                if (!category.parentId) { // Chỉ hiển thị danh mục gốc trong grid
+                    const card = document.createElement('div');
+                    card.className = 'category-card fade-in-up';
+                    card.innerHTML = `
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas ${category.icon}"></i>
+                            </div>
+                            <div class="category-info">
+                                <h3>${category.name}</h3>
+                                <p>${category.description}</p>
+                            </div>
+                        </div>
+                        <div class="category-stats">
+                            <div class="stat">
+                                <div class="stat-number">${category.productCount}</div>
+                                <div class="stat-label">Sản phẩm</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">${category.soldCount}</div>
+                                <div class="stat-label">Đã bán</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">${formatNumber(category.viewCount)}</div>
+                                <div class="stat-label">Lượt xem</div>
+                            </div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="btn-action btn-edit" onclick="editCategory(${category.id})">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteCategory(${category.id})">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
+                            <input type="checkbox" class="category-checkbox" data-id="${category.id}" onchange="toggleCategorySelection(${category.id})" style="margin-left: auto;">
+                        </div>
+                    `;
+                    gridContainer.appendChild(card);
+                }
+            });
+
+            // Trigger fade-in animation
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-up').forEach(el => {
+                    el.style.opacity = 1;
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 100);
+        }
+
+        // Hàm toggle chọn danh mục
+        function toggleCategorySelection(categoryId) {
+            if (selectedCategories.has(categoryId)) {
+                selectedCategories.delete(categoryId);
+            } else {
+                selectedCategories.add(categoryId);
+            }
+            
+            updateBulkActions();
+        }
+
+        // Hàm cập nhật bulk actions
+        function updateBulkActions() {
+            const bulkActions = document.getElementById('bulkActions');
+            const selectedCount = document.getElementById('selectedCategoriesCount');
+            
+            selectedCount.textContent = `${selectedCategories.size} danh mục được chọn`;
+            
+            if (selectedCategories.size > 0) {
+                bulkActions.classList.add('show');
+            } else {
+                bulkActions.classList.remove('show');
+            }
+        }
+
+        // Hàm xử lý bulk actions
+        function bulkUpdateCategories(status) {
+            if (selectedCategories.size === 0) {
+                NotificationManager.show('Vui lòng chọn ít nhất một danh mục!', 'warning');
+                return;
+            }
+            
+            if (confirm(`Bạn có chắc muốn cập nhật trạng thái của ${selectedCategories.size} danh mục?`)) {
+                // Update logic would be implemented here
+                NotificationManager.show(`Đã cập nhật trạng thái của ${selectedCategories.size} danh mục`);
+                selectedCategories.clear();
+                updateBulkActions();
+                renderCategoriesGrid();
+                renderCategoriesTree();
+            }
+        }
+
+        function bulkDeleteCategories() {
+            if (selectedCategories.size === 0) {
+                NotificationManager.show('Vui lòng chọn ít nhất một danh mục!', 'warning');
+                return;
+            }
+            
+            if (confirm(`Bạn có chắc muốn xóa ${selectedCategories.size} danh mục? Hành động này không thể hoàn tác!`)) {
+                // Delete logic would be implemented here
+                NotificationManager.show(`Đã xóa ${selectedCategories.size} danh mục`, 'success');
+                selectedCategories.clear();
+                updateBulkActions();
+                renderCategoriesGrid();
+                renderCategoriesTree();
+            }
+        }
+
+        // Hàm xử lý danh mục
+        function editCategory(id) {
+            NotificationManager.show(`Chỉnh sửa danh mục ID: ${id}`, 'info');
+            // Edit logic would be implemented here
+        }
+
+        function deleteCategory(id) {
+            if (confirm('Bạn có chắc muốn xóa danh mục này?')) {
+                // Delete logic would be implemented here
+                NotificationManager.show('Danh mục đã được xóa!', 'success');
+                renderCategoriesGrid();
+                renderCategoriesTree();
+            }
+        }
+
+        // Hàm xử lý form thêm danh mục
+        document.getElementById('addCategoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('categoryName').value,
+                description: document.getElementById('categoryDescription').value,
+                icon: document.getElementById('categoryIcon').value,
+                status: document.getElementById('categoryStatus').value,
+                parentId: document.getElementById('parentCategory').value || null
+            };
+            
+            // Thêm logic lưu danh mục ở đây
+            NotificationManager.show('Danh mục đã được thêm thành công!', 'success');
+            this.reset();
+            
+            // Cập nhật lại danh sách
+            renderCategoriesGrid();
+            renderCategoriesTree();
+        });
+
+        // Khởi chạy khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra đăng nhập
+            if (!AuthManager.isAdminLoggedIn()) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            // Khởi tạo theme
+            ThemeManager.init();
+
+            // Cập nhật thông tin user
+            const adminInfo = AuthManager.getAdminInfo();
+            document.getElementById('userAvatar').textContent = adminInfo.username.charAt(0).toUpperCase();
+            document.getElementById('userGreeting').textContent = `Xin chào, ${adminInfo.username}`;
+            
+            // Khởi tạo dữ liệu
+            initializeCategories();
+            renderCategoriesGrid();
+            renderCategoriesTree();
+            
+            // Đóng modal khi click outside
+            const modal = document.getElementById('categoryModal');
+            const closeBtn = document.querySelector('.close');
+            
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Escape key closes modal
+                if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                }
+                
+                // Ctrl/Cmd + A selects all categories
+                if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                    e.preventDefault();
+                    document.querySelectorAll('.category-checkbox').forEach(checkbox => {
+                        checkbox.checked = true;
+                        toggleCategorySelection(parseInt(checkbox.dataset.id));
+                    });
+                }
+            });
+        });
+
+        function logout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                AuthManager.adminLogout();
+                window.location.href = 'admin-login.html';
+            }
+        }
+    </script>
+</body>
+</html>

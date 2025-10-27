@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng ký tài khoản - Nhà Thuốc Online">
+    <meta name="keywords" content="đăng ký, tài khoản, nhà thuốc, thuốc online">
+    <title>Đăng ký - Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --primary-light: #e8f5e9;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary-color: #38a169;
+            --primary-dark: #2d784d;
+            --primary-light: #2d3748;
+            --secondary-color: #4299e1;
+            --accent-color: #fc8181;
+            --light-color: #1a202c;
+            --dark-color: #f7fafc;
+            --text-color: #e2e8f0;
+            --text-light: #a0aec0;
+            --shadow: 0 5px 15px rgba(0,0,0,0.3);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Logo Section */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .logo-subtitle {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* User Actions */
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: var(--transition);
+            position: relative;
+            font-weight: 500;
+        }
+
+        .user-actions a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.1);
+            transform: rotate(15deg);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: var(--transition);
+            font-weight: 500;
+            border-radius: 6px;
+            margin: 5px;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Register Container */
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .register-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-color);
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+
+        .register-header p {
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--light-color);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 140, 77, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--primary-light);
+            border-radius: 8px;
+        }
+
+        .terms input {
+            margin-top: 3px;
+        }
+
+        .terms label {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .register-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-home a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .back-home a:hover {
+            color: var(--primary-color);
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strength-meter {
+            height: 5px;
+            flex-grow: 1;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .strength-weak { 
+            width: 25%; 
+            background: var(--accent-color); 
+        }
+        .strength-medium { 
+            width: 50%; 
+            background: #f39c12; 
+        }
+        .strength-good { 
+            width: 75%; 
+            background: var(--secondary-color); 
+        }
+        .strength-strong { 
+            width: 100%; 
+            background: var(--primary-color); 
+        }
+
+        .strength-text {
+            font-weight: 600;
+        }
+
+        .strength-weak .strength-text { color: var(--accent-color); }
+        .strength-medium .strength-text { color: #f39c12; }
+        .strength-good .strength-text { color: var(--secondary-color); }
+        .strength-strong .strength-text { color: var(--primary-color); }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--primary-color);
+        }
+
+        .notification.error {
+            background: var(--accent-color);
+        }
+
+        /* Loading */
+        .btn-loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn-loading .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+            font-family: 'Roboto', sans-serif;
+            display: inline-block;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .contact-info i {
+            margin-top: 3px;
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+            padding-left: 0;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9em;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .register-container {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .logo-text {
+                align-items: center;
+            }
+
+            .logo-title {
+                font-size: 20px;
+            }
+
+            .logo-subtitle {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .register-header h1 {
+                font-size: 1.8em;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* Form validation */
+        .form-group.error input, .form-group.error select {
+            border-color: var(--accent-color);
+        }
+
+        .form-group.success input, .form-group.success select {
+            border-color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--accent-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        /* Phone number validation */
+        .phone-validation {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            font-size: 16px;
+        }
+
+        .phone-validation.valid {
+            color: var(--primary-color);
+        }
+
+        .phone-validation.invalid {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-section">
+                <div class="logo-container">
+                    <img src="https://img.myloview.com/murals/hospital-logo-design-pharmacy-logo-design-health-care-logo-design-and-medical-logo-design-700-250508631.jpg" alt="Pharmacy Logo" class="logo-image">
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">Pharmacy</div>
+                    <div class="logo-subtitle">Chăm Sóc Sức Khỏe Gia Đình</div>
+                </div>
+            </a>
+            
+            <div class="user-actions">
+                <button class="theme-toggle" id="themeToggle" title="Chuyển đổi chế độ sáng/tối">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html"><i class="fas fa-user"></i> Đăng nhập</a>
+                <a href="register.html"><i class="fas fa-edit"></i> Đăng ký</a>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                    <li><a href="Functional-Foods.html"><i class="fas fa-pills"></i> Thực phẩm chức năng</a></li>
+                    <li><a href="Medical-Supplies.html"><i class="fas fa-stethoscope"></i> Vật phẩm Y tế</a></li>
+                    <li><a href="prescription-medicine.html"><i class="fas fa-file-prescription"></i> Thuốc kê đơn</a></li>
+                    <li><a href="Over-the-counter-medication.html"><i class="fas fa-capsules"></i> Thuốc không kê đơn</a></li>
+                    <li><a href="health-consultation.html"><i class="fas fa-heartbeat"></i> Tư vấn sức khỏe</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="register-container">
+            <div class="register-header">
+                <h1><i class="fas fa-user-plus"></i> Đăng ký</h1>
+                <p>Tạo tài khoản để mua sắm dễ dàng hơn</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName"><i class="fas fa-user"></i> Họ</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Nhập họ" required>
+                        <div class="error-message">Vui lòng nhập họ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName"><i class="fas fa-user"></i> Tên</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Nhập tên" required>
+                        <div class="error-message">Vui lòng nhập tên</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email" required>
+                    <div class="error-message">Vui lòng nhập email hợp lệ</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone"></i> Số điện thoại</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+                    <span class="phone-validation" id="phoneValidation"><i class="fas fa-phone"></i></span>
+                    <div class="error-message">Vui lòng nhập số điện thoại hợp lệ</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Mật khẩu</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                    <button type="button" class="password-toggle" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-meter">
+                            <div class="strength-fill"></div>
+                        </div>
+                        <span class="strength-text">Độ mạnh mật khẩu</span>
+                    </div>
+                    <div class="error-message">Mật khẩu phải có ít nhất 6 ký tự</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword"><i class="fas fa-lock"></i> Xác nhận mật khẩu</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                    <button type="button" class="password-toggle" id="toggleConfirmPassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="error-message">Mật khẩu xác nhận không khớp</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender"><i class="fas fa-venus-mars"></i> Giới tính</label>
+                        <select id="gender" name="gender">
+                            <option value="">Chọn giới tính</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="other">Khác</option>
+                        </select>
+                        <div class="error-message">Vui lòng chọn giới tính</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday"><i class="fas fa-birthday-cake"></i> Ngày sinh</label>
+                        <input type="date" id="birthday" name="birthday">
+                        <div class="error-message">Vui lòng chọn ngày sinh</div>
+                    </div>
+                </div>
+
+                <div class="terms">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">
+                        Tôi đồng ý với <a href="#">điều khoản sử dụng</a> và <a href="#">chính sách bảo mật</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="register-btn" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Đăng ký tài khoản
+                </button>
+            </form>
+
+            <div class="login-link">
+                <p>Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a></p>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Quay lại trang chủ</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Về chúng tôi</h3>
+                <p>Nhà Thuốc Online với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe, cam kết mang đến những sản phẩm chất lượng nhất với giá cả hợp lý nhất cho khách hàng.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/thailionel2504" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/Trngquc76951Thi?s=09" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/thailionel2504?igsh=aWhpaTB6NmozNHc5" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/?app=desktop&hl=vi" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="Functional-Foods.html">Thực phẩm chức năng</a></li>
+                    <li><a href="Medical-Supplies.html">Vật phẩm y tế</a></li>
+                    <li><a href="prescription-medicine.html">Thuốc kê đơn</a></li>
+                    <li><a href="Over-the-counter-medication.html">Thuốc không kê đơn</a></li>
+                    <li><a href="health-consultation.html">Tư vấn sức khỏe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Tài khoản</h3>
+                <ul>
+                    <li><a href="login.html">Đăng nhập</a></li>
+                    <li><a href="register.html">Đăng ký</a></li>
+                    <li><a href="customer-info.html">Thông tin tài khoản</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Thông tin liên hệ</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.HCM</li>
+                    <li><i class="fas fa-phone"></i> Hotline: 1900 1234</li>
+                    <li><i class="fas fa-envelope"></i> Email: info@nhathuoconline.com</li>
+                    <li><i class="fas fa-clock"></i> Thời gian làm việc: 7:00 - 22:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2024 Nhà Thuốc Online. Tất cả các quyền được bảo lưu. | Phát triển bởi Team Dev
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Thông báo</span>
+    </div>
+
+    <script>
+        // Theme Manager
+        class ThemeManager {
+            static init() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                this.setTheme(savedTheme);
+                
+                document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+            }
+
+            static setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                // Update toggle icon
+                const icon = document.querySelector('.theme-toggle i');
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+
+            static toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                this.setTheme(newTheme);
+            }
+        }
+
+        // Hiển thị/ẩn mật khẩu
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Hiển thị thông báo
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Kiểm tra độ mạnh mật khẩu
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthContainer = document.getElementById('passwordStrength');
+            const strengthFill = strengthContainer.querySelector('.strength-fill');
+            const strengthText = strengthContainer.querySelector('.strength-text');
+            
+            if (password.length === 0) {
+                strengthContainer.className = 'password-strength';
+                strengthFill.className = 'strength-fill';
+                strengthText.textContent = 'Độ mạnh mật khẩu';
+                return;
+            }
+            
+            let strength = 0;
+            
+            // Kiểm tra độ dài
+            if (password.length >= 8) strength++;
+            
+            // Kiểm tra chữ thường
+            if (password.match(/[a-z]/)) strength++;
+            
+            // Kiểm tra chữ hoa
+            if (password.match(/[A-Z]/)) strength++;
+            
+            // Kiểm tra số
+            if (password.match(/\d/)) strength++;
+            
+            // Kiểm tra ký tự đặc biệt
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+            
+            // Cập nhật giao diện
+            const strengthClasses = ['', 'strength-weak', 'strength-medium', 'strength-good', 'strength-strong'];
+            const strengthLabels = ['', 'Rất yếu', 'Yếu', 'Trung bình', 'Mạnh', 'Rất mạnh'];
+            
+            strengthContainer.className = `password-strength ${strengthClasses[strength]}`;
+            strengthFill.className = `strength-fill ${strengthClasses[strength]}`;
+            strengthText.textContent = strengthLabels[strength];
+        });
+
+        // Kiểm tra số điện thoại
+        document.getElementById('phone').addEventListener('input', function() {
+            const phone = this.value;
+            const validationIcon = document.getElementById('phoneValidation');
+            const phoneRegex = /^0[1-9]\d{8,9}$/;
+            
+            if (phone.length === 0) {
+                validationIcon.className = 'phone-validation';
+                validationIcon.innerHTML = '<i class="fas fa-phone"></i>';
+                return;
+            }
+            
+            if (phoneRegex.test(phone)) {
+                validationIcon.className = 'phone-validation valid';
+                validationIcon.innerHTML = '<i class="fas fa-check"></i>';
+            } else {
+                validationIcon.className = 'phone-validation invalid';
+                validationIcon.innerHTML = '<i class="fas fa-times"></i>';
+            }
+        });
+
+        // Xử lý đăng ký
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const gender = document.getElementById('gender').value;
+            const birthday = document.getElementById('birthday').value;
+            const agree = document.getElementById('agree').checked;
+            
+            const registerBtn = document.getElementById('registerBtn');
+            
+            // Reset trạng thái form
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error', 'success');
+            });
+            
+            // Kiểm tra các trường bắt buộc
+            let isValid = true;
+            
+            if (!firstName) {
+                document.getElementById('firstName').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!lastName) {
+                document.getElementById('lastName').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('email').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            const phoneRegex = /^0[1-9]\d{8,9}$/;
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phone').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('password').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPassword').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!gender) {
+                document.getElementById('gender').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!birthday) {
+                document.getElementById('birthday').parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!agree) {
+                showNotification('Vui lòng đồng ý với điều khoản sử dụng!', 'error');
+                return;
+            }
+            
+            if (!isValid) {
+                showNotification('Vui lòng điền đầy đủ thông tin hợp lệ!', 'error');
+                return;
+            }
+            
+            // Hiệu ứng loading
+            registerBtn.innerHTML = '<div class="spinner"></div> Đang đăng ký...';
+            registerBtn.classList.add('btn-loading');
+            
+            // Giả lập thời gian xử lý
+            setTimeout(() => {
+                // Tạo tài khoản mới
+                const newUser = {
+                    id: Date.now(),
+                    name: `${firstName} ${lastName}`,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    gender: gender,
+                    birthday: birthday,
+                    registerDate: new Date().toISOString()
+                };
+                
+                // Lấy danh sách người dùng hiện tại
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                
+                // Kiểm tra email đã tồn tại
+                if (users.find(u => u.email === email)) {
+                    showNotification('Email đã được đăng ký!', 'error');
+                    registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Đăng ký tài khoản';
+                    registerBtn.classList.remove('btn-loading');
+                    return;
+                }
+                
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Đăng nhập luôn
+                localStorage.setItem('currentUser', JSON.stringify(newUser));
+                
+                showNotification('Đăng ký thành công!', 'success');
+                
+                // Chuyển hướng sau 1.5 giây
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }, 1500);
+        });
+
+        // Đặt giá trị mặc định cho ngày sinh (18 tuổi trở lên)
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+            document.getElementById('birthday').max = minDate.toISOString().split('T')[0];
+            
+            // Khởi tạo theme manager
+            ThemeManager.init();
+        });
+    </script>
+</body>
+</html>

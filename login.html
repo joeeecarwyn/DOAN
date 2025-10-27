@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng nhập - Pharmacy - Chăm sóc sức khỏe toàn diện cho gia đình bạn">
+    <meta name="keywords" content="đăng nhập, nhà thuốc, thuốc online, tài khoản">
+    <title>Đăng nhập - Pharmacy | Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Thêm PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c8c4d">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --primary-light: #e8f5e9;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary-color: #38a169;
+            --primary-dark: #2d784d;
+            --primary-light: #2d3748;
+            --secondary-color: #4299e1;
+            --accent-color: #fc8181;
+            --light-color: #1a202c;
+            --dark-color: #f7fafc;
+            --text-color: #e2e8f0;
+            --text-light: #a0aec0;
+            --shadow: 0 5px 15px rgba(0,0,0,0.3);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-light), #c8e6c9);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .login-container {
+            background: var(--light-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hover);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-color);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .login-header p {
+            color: var(--text-light);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--light-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 140, 77, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .password-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: var(--text-light);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: var(--light-color);
+            padding: 0 15px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: var(--light-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .social-btn.facebook {
+            color: #1877F2;
+        }
+
+        .social-btn.google {
+            color: #DB4437;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-home a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: var(--transition);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .back-home a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success-color);
+        }
+
+        .notification.error {
+            background: var(--accent-color);
+        }
+
+        .notification.warning {
+            background: var(--warning-color);
+        }
+
+        /* Loading */
+        .btn-loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn-loading .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(44, 140, 77, 0.1);
+            transform: rotate(15deg);
+        }
+
+        /* Security icon */
+        .security-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: var(--primary-color);
+            z-index: 1;
+        }
+
+        /* Form validation */
+        .form-group.error input {
+            border-color: var(--accent-color);
+        }
+
+        .form-group.success input {
+            border-color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--accent-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        /* Logo */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-title {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* AI Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 10001;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+        }
+
+        .chatbot-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            line-height: 1.4;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .bot-message {
+            background: white;
+            border: 1px solid #e9ecef;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+        }
+
+        .chatbot-input {
+            padding: 15px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .chatbot-input button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-input button:hover {
+            background: var(--primary-dark);
+        }
+
+        .floating-chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .floating-chatbot-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        /* Scroll to Top */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .social-login {
+                flex-direction: column;
+            }
+            
+            .remember-forgot {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .logo-text {
+                align-items: center;
+            }
+
+            .logo-title {
+                font-size: 18px;
+            }
+
+            .logo-subtitle {
+                font-size: 10px;
+            }
+
+            .chatbot-widget {
+                width: calc(100vw - 40px);
+                height: 70vh;
+                right: 20px;
+                left: 20px;
+            }
+        }
+
+        /* Enhanced styling */
+        .login-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(44, 140, 77, 0.1), transparent);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .login-header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-login {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle" title="Chuyển đổi chế độ sáng/tối">
+            <i class="fas fa-moon"></i>
+        </button>
+        
+        <!-- Security Icon -->
+        <div class="security-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        
+        <!-- Logo -->
+        <a href="index.html" class="logo-section">
+            <div class="logo-container">
+                <img src="https://img.myloview.com/murals/hospital-logo-design-pharmacy-logo-design-health-care-logo-design-and-medical-logo-design-700-250508631.jpg" alt="Pharmacy Logo" class="logo-image">
+            </div>
+            <div class="logo-text">
+                <div class="logo-title">Pharmacy</div>
+                <div class="logo-subtitle">Chăm Sóc Sức Khỏe Gia Đình</div>
+            </div>
+        </a>
+        
+        <div class="login-header">
+            <h1><i class="fas fa-user-circle"></i> Đăng nhập</h1>
+            <p>Vui lòng đăng nhập để tiếp tục mua sắm</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
+                <div class="error-message">Vui lòng nhập email hợp lệ</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Mật khẩu</label>
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                <button type="button" class="password-toggle" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <div class="error-message">Vui lòng nhập mật khẩu</div>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember" id="remember">
+                    Ghi nhớ đăng nhập
+                </label>
+                <a href="#" class="forgot-password">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>Hoặc đăng nhập với</span>
+        </div>
+
+        <div class="social-login">
+            <button class="social-btn facebook">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </button>
+            <button class="social-btn google">
+                <i class="fab fa-google"></i> Google
+            </button>
+        </div>
+
+        <div class="register-link">
+            <p>Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a></p>
+        </div>
+
+        <div class="back-home">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Quay lại trang chủ</a>
+        </div>
+    </div>
+
+    <!-- AI Chatbot Widget -->
+    <div id="healthChatbot" class="chatbot-widget">
+        <div class="chatbot-header">
+            <i class="fas fa-robot"></i>
+            <span>Trợ lý sức khỏe AI</span>
+            <button class="close-chatbot">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                <strong>Xin chào! 👋</strong><br>
+                Tôi là trợ lý sức khỏe AI. Tôi có thể giúp gì cho bạn?<br><br>
+                💊 <strong>Thông tin thuốc</strong><br>
+                🏥 <strong>Tư vấn sức khỏe</strong><br>
+                📋 <strong>Hướng dẫn sử dụng</strong><br>
+                🚑 <strong>Khẩn cấp</strong>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Nhập câu hỏi về sức khỏe..." id="chatbotInput">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="openChatbot" class="floating-chatbot-btn">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Thông báo</span>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        // ==================== SYSTEM MANAGERS ====================
+
+        // Theme Manager
+        class ThemeManager {
+            static init() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                this.setTheme(savedTheme);
+                
+                document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+            }
+
+            static setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                // Update toggle icon
+                const icon = document.querySelector('.theme-toggle i');
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+
+            static toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                this.setTheme(newTheme);
+            }
+        }
+
+        // AI Chatbot Manager
+        class ChatbotManager {
+            static init() {
+                this.isOpen = false;
+                this.chatbot = document.getElementById('healthChatbot');
+                this.messagesContainer = document.getElementById('chatbotMessages');
+                this.input = document.getElementById('chatbotInput');
+                this.sendBtn = document.getElementById('sendMessage');
+                this.openBtn = document.getElementById('openChatbot');
+                this.closeBtn = document.querySelector('.close-chatbot');
+
+                this.setupEventListeners();
+                this.loadChatHistory();
+            }
+
+            static setupEventListeners() {
+                this.openBtn.addEventListener('click', () => this.toggleChatbot());
+                this.closeBtn.addEventListener('click', () => this.toggleChatbot());
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+
+                // Close chatbot when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (this.isOpen && !this.chatbot.contains(e.target) && e.target !== this.openBtn) {
+                        this.toggleChatbot();
+                    }
+                });
+            }
+
+            static toggleChatbot() {
+                this.isOpen = !this.isOpen;
+                this.chatbot.style.display = this.isOpen ? 'flex' : 'none';
+                this.openBtn.style.display = this.isOpen ? 'none' : 'flex';
+                
+                if (this.isOpen) {
+                    this.input.focus();
+                }
+            }
+
+            static async sendMessage() {
+                const message = this.input.value.trim();
+                if (!message) return;
+
+                this.addMessage(message, 'user');
+                this.input.value = '';
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                // Simulate AI response (in real app, this would call an API)
+                setTimeout(() => {
+                    this.hideTypingIndicator();
+                    const response = this.generateResponse(message);
+                    this.addMessage(response, 'bot');
+                    this.saveChatHistory();
+                }, 1000 + Math.random() * 2000);
+            }
+
+            static addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                messageDiv.textContent = text;
+                this.messagesContainer.appendChild(messageDiv);
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            static showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.className = 'message bot-message';
+                typingDiv.innerHTML = '<i class="fas fa-ellipsis-h"></i> Đang trả lời...';
+                this.messagesContainer.appendChild(typingDiv);
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            static hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            static generateResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Simple response logic - in real app, integrate with AI service
+                if (lowerMessage.includes('cảm') || lowerMessage.includes('sốt')) {
+                    return "Với triệu chứng cảm/sốt, bạn có thể tham khảo:\n\n💊 Thuốc hạ sốt: Paracetamol\n🍵 Giữ ấm, uống nhiều nước\n🏥 Nếu sốt cao >39°C, nên đi khám bác sĩ\n\nLưu ý: Đây chỉ là tư vấn chung, hãy tham khảo ý kiến bác sĩ để được chẩn đoán chính xác.";
+                } else if (lowerMessage.includes('đau đầu')) {
+                    return "Triệu chứng đau đầu có thể do nhiều nguyên nhân:\n\n💊 Thuốc giảm đau: Paracetamol, Ibuprofen\n🌿 Nghỉ ngơi, thư giãn\n💧 Uống đủ nước\n🚨 Nếu đau đầu dữ dội hoặc kéo dài, cần đi khám ngay";
+                } else if (lowerMessage.includes('vitamin') || lowerMessage.includes('bổ sung')) {
+                    return "Các loại vitamin phổ biến:\n\n🍊 Vitamin C: Tăng sức đề kháng\n💊 Vitamin D: Tốt cho xương\n🐟 Omega-3: Tốt cho tim mạch\n🌿 Vitamin B: Cung cấp năng lượng\n\nNên tham khảo bác sĩ để biết liều lượng phù hợp.";
+                } else if (lowerMessage.includes('cảm ơn') || lowerMessage.includes('thanks')) {
+                    return "Không có gì! 😊 Nếu bạn có thêm câu hỏi về sức khỏe, tôi luôn sẵn sàng hỗ trợ. Chúc bạn và gia đình luôn khỏe mạnh!";
+                } else {
+                    return "Cảm ơn câu hỏi của bạn! Để được tư vấn chính xác về tình trạng sức khỏe, bạn nên:\n\n👨‍⚕️ Tham khảo ý kiến bác sĩ\n💊 Đến nhà thuốc để được dược sĩ tư vấn\n📞 Gọi hotline 1900-1234 để được hỗ trợ\n\nTôi có thể cung cấp thông tin chung về thuốc và sức khỏe.";
+                }
+            }
+
+            static saveChatHistory() {
+                const messages = Array.from(this.messagesContainer.querySelectorAll('.message')).map(msg => ({
+                    text: msg.textContent,
+                    type: msg.classList.contains('user-message') ? 'user' : 'bot'
+                }));
+                localStorage.setItem('chatHistory', JSON.stringify(messages));
+            }
+
+            static loadChatHistory() {
+                const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+                if (history.length > 0) {
+                    this.messagesContainer.innerHTML = '';
+                    history.forEach(msg => this.addMessage(msg.text, msg.type));
+                }
+            }
+        }
+
+        // ==================== LOGIN FUNCTIONALITY ====================
+
+        // Khởi tạo dữ liệu mẫu nếu chưa có
+        function initializeSampleData() {
+            if (!localStorage.getItem('users')) {
+                const sampleUsers = [
+                    {
+                        email: "demo@example.com",
+                        password: "123456",
+                        name: "Nguyễn Văn Demo",
+                        phone: "0901234567",
+                        personal: {
+                            dob: "1990-01-01",
+                            gender: "Nam",
+                            idCard: "0123456789"
+                        },
+                        contact: {
+                            address: "123 Đường ABC, Quận XYZ, TP.HCM"
+                        },
+                        medical: {
+                            blood: "O+",
+                            allergy: "Không",
+                            condition: "Không",
+                            doctor: "BS. Nguyễn Văn A"
+                        }
+                    },
+                    {
+                        email: "user@test.com",
+                        password: "password",
+                        name: "Nguyễn Thị Test",
+                        phone: "0907654321",
+                        personal: {
+                            dob: "1995-05-15",
+                            gender: "Nữ",
+                            idCard: "0987654321"
+                        },
+                        contact: {
+                            address: "456 Đường XYZ, Quận ABC, TP.HCM"
+                        },
+                        medical: {
+                            blood: "A+",
+                            allergy: "Penicillin",
+                            condition: "Cao huyết áp",
+                            doctor: "BS. Trần Thị B"
+                        }
+                    }
+                ];
+                localStorage.setItem('users', JSON.stringify(sampleUsers));
+            }
+        }
+
+        // Hiển thị/ẩn mật khẩu
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Hiển thị thông báo
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const icon = notification.querySelector('i');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type}`;
+            
+            // Thay đổi icon dựa trên loại thông báo
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else {
+                icon.className = 'fas fa-check-circle';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Xử lý đăng nhập
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const loginBtn = document.getElementById('loginBtn');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            
+            // Reset trạng thái form
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error', 'success');
+            });
+            
+            // Kiểm tra email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailInput.parentElement.classList.add('error');
+                showNotification('Vui lòng nhập email hợp lệ!', 'error');
+                return;
+            }
+            
+            // Kiểm tra mật khẩu
+            if (password.length < 6) {
+                passwordInput.parentElement.classList.add('error');
+                showNotification('Mật khẩu phải có ít nhất 6 ký tự!', 'error');
+                return;
+            }
+            
+            // Hiệu ứng loading
+            loginBtn.innerHTML = '<div class="spinner"></div> Đang đăng nhập...';
+            loginBtn.classList.add('btn-loading');
+            
+            // Giả lập thời gian xử lý
+            setTimeout(() => {
+                // Kiểm tra thông tin đăng nhập
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    // Đánh dấu input là thành công
+                    emailInput.parentElement.classList.add('success');
+                    passwordInput.parentElement.classList.add('success');
+                    
+                    // Lưu thông tin đăng nhập
+                    const userSession = {
+                        ...user,
+                        loginTime: new Date().toISOString(),
+                        remember: remember
+                    };
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(userSession));
+                    
+                    showNotification('Đăng nhập thành công!', 'success');
+                    
+                    // Chuyển hướng sau 1 giây
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    // Đánh dấu input là lỗi
+                    emailInput.parentElement.classList.add('error');
+                    passwordInput.parentElement.classList.add('error');
+                    
+                    showNotification('Email hoặc mật khẩu không đúng!', 'error');
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Đăng nhập';
+                    loginBtn.classList.remove('btn-loading');
+                }
+            }, 1500);
+        });
+
+        // Xử lý sự kiện nhập liệu để xóa lỗi
+        document.getElementById('email').addEventListener('input', function() {
+            this.parentElement.classList.remove('error');
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            this.parentElement.classList.remove('error');
+        });
+
+        // Scroll to top functionality
+        function initScrollToTop() {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Xử lý đăng nhập bằng mạng xã hội
+        document.querySelectorAll('.social-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const platform = this.classList.contains('facebook') ? 'Facebook' : 'Google';
+                showNotification(`Đăng nhập với ${platform} đang được phát triển!`, 'warning');
+            });
+        });
+
+        // Xử lý quên mật khẩu
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            showNotification('Chức năng quên mật khẩu đang được phát triển!', 'warning');
+        });
+
+        // --- Khởi tạo ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize managers
+            ThemeManager.init();
+            ChatbotManager.init();
+            
+            // Initialize sample data
+            initializeSampleData();
+            
+            // Initialize scroll to top
+            initScrollToTop();
+            
+            // Kiểm tra nếu đã đăng nhập
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.remember) {
+                // Nếu có thông tin ghi nhớ đăng nhập, tự động điền form
+                document.getElementById('email').value = currentUser.email;
+                document.getElementById('remember').checked = true;
+            }
+            
+            // Thêm hiệu ứng hover cho nút đăng nhập
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            loginBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

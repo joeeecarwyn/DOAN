@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Giá bán - Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: var(--primary-color);
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-logout {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+
+        /* Price Stats */
+        .price-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin: 0 auto 15px;
+        }
+
+        .stat-icon.updated { background: var(--primary-color); }
+        .stat-icon.increased { background: #e67e22; }
+        .stat-icon.decreased { background: #e74c3c; }
+        .stat-icon.pending { background: #f39c12; }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Bulk Update */
+        .bulk-update {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 140, 77, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Price Alerts */
+        .price-alerts {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .alert-item {
+            padding: 10px;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            background: #fff9e6;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Price Management */
+        .price-management {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            min-width: 150px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .price-input {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: right;
+            transition: all 0.3s ease;
+        }
+
+        .price-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(44, 140, 77, 0.1);
+        }
+
+        .price-input.changed {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .price-change {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .price-change.up {
+            background: #e8f5e9;
+            color: var(--primary-color);
+        }
+
+        .price-change.down {
+            background: #f8d7da;
+            color: var(--accent-color);
+        }
+
+        .price-change.neutral {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        .margin-indicator {
+            width: 80px;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .margin-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .margin-high { background: var(--primary-color); }
+        .margin-medium { background: #ffc107; }
+        .margin-low { background: #e74c3c; }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-discard {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-history {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .pagination {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .page-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .page-info {
+            margin: 0 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Price History Chart */
+        .price-history {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        /* Competitor Price Comparison */
+        .competitor-comparison {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .comparison-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-difference {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .difference-positive {
+            background: #e8f5e9;
+            color: var(--primary-color);
+        }
+
+        .difference-negative {
+            background: #f8d7da;
+            color: var(--accent-color);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar-header h2, .sidebar-header p, .menu-item span {
+                display: none;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>NHÀ THUỐC ONLINE</h2>
+            <p>Hệ thống quản trị</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="fas fa-pills"></i>
+                <span>Sản phẩm</span>
+            </a>
+            <a href="categories.html" class="menu-item">
+                <i class="fas fa-tags"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Đơn hàng</span>
+            </a>
+            <a href="customers.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Khách hàng</span>
+            </a>
+            <a href="import-products.html" class="menu-item">
+                <i class="fas fa-upload"></i>
+                <span>Nhập hàng</span>
+            </a>
+            <a href="stock.html" class="menu-item">
+                <i class="fas fa-boxes"></i>
+                <span>Tồn kho</span>
+            </a>
+            <a href="prices.html" class="menu-item active">
+                <i class="fas fa-tag"></i>
+                <span>Giá bán</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Quản lý Giá bán</h1>
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <span>Xin chào, Admin</span>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- Price Stats -->
+        <div class="price-stats">
+            <div class="stat-card" onclick="filterByChangeType('all')">
+                <div class="stat-icon updated">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <div class="stat-number" id="updatedPrices">45</div>
+                <div class="stat-label">Giá đã cập nhật</div>
+            </div>
+            <div class="stat-card" onclick="filterByChangeType('increase')">
+                <div class="stat-icon increased">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="stat-number" id="increasedPrices">23</div>
+                <div class="stat-label">Giá tăng</div>
+            </div>
+            <div class="stat-card" onclick="filterByChangeType('decrease')">
+                <div class="stat-icon decreased">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="stat-number" id="decreasedPrices">12</div>
+                <div class="stat-label">Giá giảm</div>
+            </div>
+            <div class="stat-card" onclick="filterByChangeType('pending')">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number" id="pendingPrices">8</div>
+                <div class="stat-label">Chờ xác nhận</div>
+            </div>
+        </div>
+
+        <!-- Price Alerts -->
+        <div class="price-alerts" id="priceAlerts" style="display: none;">
+            <h4><i class="fas fa-exclamation-triangle"></i> Cảnh báo giá</h4>
+            <div id="alertsList">
+                <!-- Alerts will be populated here -->
+            </div>
+        </div>
+
+        <!-- Competitor Price Comparison -->
+        <div class="competitor-comparison">
+            <h3>So sánh giá với đối thủ</h3>
+            <div id="comparisonList">
+                <!-- Comparison data will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Bulk Update -->
+        <div class="bulk-update">
+            <h2>Cập nhật giá hàng loạt</h2>
+            <form id="bulkUpdateForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="updateType">Loại cập nhật *</label>
+                        <select id="updateType" class="form-control" required onchange="toggleUpdateFields()">
+                            <option value="">Chọn loại cập nhật</option>
+                            <option value="increase">Tăng giá</option>
+                            <option value="decrease">Giảm giá</option>
+                            <option value="set">Đặt giá mới</option>
+                            <option value="margin">Điều chỉnh theo lợi nhuận</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateValue" id="updateValueLabel">Giá trị *</label>
+                        <input type="number" id="updateValue" class="form-control" placeholder="Nhập giá trị" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateUnit">Đơn vị *</label>
+                        <select id="updateUnit" class="form-control" required>
+                            <option value="percent">Phần trăm (%)</option>
+                            <option value="fixed">Số tiền cố định</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row" id="categoryFilterRow">
+                    <div class="form-group">
+                        <label for="updateCategory">Áp dụng cho danh mục</label>
+                        <select id="updateCategory" class="form-control">
+                            <option value="">Tất cả danh mục</option>
+                            <option value="tpc">Thực phẩm chức năng</option>
+                            <option value="medical">Vật phẩm y tế</option>
+                            <option value="prescription">Thuốc kê đơn</option>
+                            <option value="otc">Thuốc không kê đơn</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateEffectiveDate">Ngày hiệu lực</label>
+                        <input type="datetime-local" id="updateEffectiveDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateReason">Lý do điều chỉnh</label>
+                        <input type="text" id="updateReason" class="form-control" placeholder="Nhập lý do điều chỉnh giá">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sync"></i> Áp dụng cho tất cả
+                    </button>
+                    <button type="button" class="btn" onclick="previewBulkUpdate()">
+                        <i class="fas fa-eye"></i> Xem trước
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Price History -->
+        <div class="price-history">
+            <h3>Lịch sử biến động giá</h3>
+            <div class="chart-placeholder">
+                Biểu đồ biến động giá sẽ được hiển thị ở đây
+            </div>
+        </div>
+
+        <!-- Price Management Table -->
+        <div class="price-management">
+            <div class="table-header">
+                <h2>Danh sách giá sản phẩm</h2>
+                <div class="filter-controls">
+                    <select class="filter-select" id="categoryFilter" onchange="filterProducts()">
+                        <option value="">Tất cả danh mục</option>
+                        <option value="tpc">Thực phẩm chức năng</option>
+                        <option value="medical">Vật phẩm y tế</option>
+                        <option value="prescription">Thuốc kê đơn</option>
+                        <option value="otc">Thuốc không kê đơn</option>
+                    </select>
+                    <select class="filter-select" id="changeFilter" onchange="filterProducts()">
+                        <option value="">Tất cả thay đổi</option>
+                        <option value="increased">Giá tăng</option>
+                        <option value="decreased">Giá giảm</option>
+                        <option value="unchanged">Không thay đổi</option>
+                    </select>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="filterProducts()">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveAllChanges()">
+                        <i class="fas fa-save"></i> Lưu tất cả thay đổi
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá nhập</th>
+                            <th>Giá bán hiện tại</th>
+                            <th>Giá bán mới</th>
+                            <th>Thay đổi</th>
+                            <th>Lợi nhuận</th>
+                            <th>So sánh</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="priceTableBody">
+                        <!-- Products will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <div class="pagination-info">
+                    Hiển thị <span id="displayRange">1-10</span> của <span id="totalProducts">124</span> sản phẩm
+                </div>
+                <div class="pagination-controls">
+                    <button class="page-btn" onclick="changePage('prev')">‹</button>
+                    <span class="page-info">Trang <span id="currentPage">1</span> / <span id="totalPages">13</span></span>
+                    <button class="page-btn" onclick="changePage('next')">›</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price History Modal -->
+    <div id="priceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Lịch sử giá</h3>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- Modal content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Biến toàn cục
+        let products = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let currentCategoryFilter = '';
+        let currentChangeFilter = '';
+        let currentSearchTerm = '';
+        let changedProducts = new Set();
+
+        // Hàm khởi tạo dữ liệu
+        function initializeProducts() {
+            products = [
+                {
+                    id: 1,
+                    name: 'Vitamin C 1000mg',
+                    image: 'https://www.naturesaid.co.uk/images/vitamin-c-1000mg-time-release-p245-378_image.jpg',
+                    category: 'tpc',
+                    cost: 120000,
+                    currentPrice: 150000,
+                    newPrice: 150000,
+                    margin: 25.0,
+                    competitorPrices: {
+                        'Nhà thuốc A': 145000,
+                        'Nhà thuốc B': 155000,
+                        'Nhà thuốc C': 148000
+                    }
+                },
+                {
+                    id: 2,
+                    name: 'Máy đo huyết áp Omron',
+                    image: 'https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/mtsp/gia-dung/may-do-huyet-ap-tu-dong-omron-hem-7143t1-co-kieu-dang-nho-gon.jpg',
+                    category: 'medical',
+                    cost: 380000,
+                    currentPrice: 450000,
+                    newPrice: 450000,
+                    margin: 18.4,
+                    competitorPrices: {
+                        'Nhà thuốc A': 445000,
+                        'Nhà thuốc B': 460000,
+                        'Nhà thuốc C': 455000
+                    }
+                },
+                {
+                    id: 3,
+                    name: 'Panadol Extra',
+                    image: 'https://abclive1.s3.amazonaws.com/2c2edf5e-aa5c-4940-b5c6-6eb1ac32a016/productimage/5099627630375___XL.jpg',
+                    category: 'otc',
+                    cost: 60000,
+                    currentPrice: 80000,
+                    newPrice: 85000,
+                    margin: 41.7,
+                    competitorPrices: {
+                        'Nhà thuốc A': 82000,
+                        'Nhà thuốc B': 78000,
+                        'Nhà thuốc C': 80000
+                    }
+                },
+                {
+                    id: 4,
+                    name: 'Canxi & Vitamin D3',
+                    image: 'https://product.hstatic.net/1000251766/product/vien-uong-bo-sung-vitamin-d-canxi-ostelin-300v-1_e8a05c7b1d884866970c226e120f5b45_master.jpg',
+                    category: 'tpc',
+                    cost: 95000,
+                    currentPrice: 120000,
+                    newPrice: 115000,
+                    margin: 21.1,
+                    competitorPrices: {
+                        'Nhà thuốc A': 118000,
+                        'Nhà thuốc B': 122000,
+                        'Nhà thuốc C': 119000
+                    }
+                }
+            ];
+        }
+
+        // Hàm định dạng tiền
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', { 
+                style: 'currency', 
+                currency: 'VND' 
+            }).format(price);
+        }
+
+        // Hàm tính phần trăm thay đổi
+        function calculateChangePercent(oldPrice, newPrice) {
+            return ((newPrice - oldPrice) / oldPrice * 100).toFixed(1);
+        }
+
+        // Hàm render bảng giá
+        function renderPriceTable() {
+            const tbody = document.getElementById('priceTableBody');
+            const filteredProducts = filterProductsData();
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const displayedProducts = filteredProducts.slice(startIndex, endIndex);
+
+            tbody.innerHTML = '';
+
+            displayedProducts.forEach((product, index) => {
+                const changePercent = calculateChangePercent(product.currentPrice, product.newPrice);
+                const changeType = product.newPrice > product.currentPrice ? 'up' : 
+                                 product.newPrice < product.currentPrice ? 'down' : 'neutral';
+                
+                const marginClass = product.margin > 30 ? 'margin-high' : 
+                                  product.margin > 15 ? 'margin-medium' : 'margin-low';
+                const marginWidth = Math.min(product.margin, 50);
+
+                // Tìm giá thấp nhất của đối thủ
+                const competitorPrices = Object.values(product.competitorPrices);
+                const minCompetitorPrice = Math.min(...competitorPrices);
+                const priceDifference = product.newPrice - minCompetitorPrice;
+                const differenceClass = priceDifference <= 0 ? 'difference-positive' : 'difference-negative';
+                const differenceText = priceDifference <= 0 ? `-${formatPrice(Math.abs(priceDifference))}` : `+${formatPrice(priceDifference)}`;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                    </td>
+                    <td>
+                        <div style="font-weight: 500;">${product.name}</div>
+                        <div style="font-size: 12px; color: #666;">
+                            ${getCategoryName(product.category)}
+                        </div>
+                    </td>
+                    <td>${formatPrice(product.cost)}</td>
+                    <td>${formatPrice(product.currentPrice)}</td>
+                    <td>
+                        <input type="number" 
+                               class="price-input ${product.newPrice !== product.currentPrice ? 'changed' : ''}" 
+                               value="${product.newPrice}" 
+                               onchange="updateProductPrice(${index}, this.value)"
+                               onfocus="this.select()">
+                    </td>
+                    <td>
+                        <span class="price-change ${changeType}">
+                            ${changeType === 'up' ? '+' : ''}${changePercent}%
+                        </span>
+                    </td>
+                    <td>
+                        <div>${product.margin}%</div>
+                        <div class="margin-indicator">
+                            <div class="margin-fill ${marginClass}" style="width: ${marginWidth}%"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="price-difference ${differenceClass}">
+                            ${differenceText}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-action btn-save" onclick="saveProductPrice(${product.id})" 
+                                ${product.newPrice === product.currentPrice ? 'disabled' : ''}>
+                            <i class="fas fa-save"></i> Lưu
+                        </button>
+                        <button class="btn-action btn-discard" onclick="discardPriceChange(${index})"
+                                ${product.newPrice === product.currentPrice ? 'disabled' : ''}>
+                            <i class="fas fa-undo"></i> Hủy
+                        </button>
+                        <button class="btn-action btn-history" onclick="showPriceHistory(${product.id})">
+                            <i class="fas fa-history"></i> Lịch sử
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updatePaginationInfo(filteredProducts.length);
+            updatePriceStats();
+            loadCompetitorComparison();
+            checkPriceAlerts();
+        }
+
+        // Hàm lọc dữ liệu sản phẩm
+        function filterProductsData() {
+            return products.filter(product => {
+                const matchesCategory = !currentCategoryFilter || product.category === currentCategoryFilter;
+                const matchesSearch = !currentSearchTerm || 
+                    product.name.toLowerCase().includes(currentSearchTerm);
+                
+                let matchesChange = true;
+                if (currentChangeFilter) {
+                    const changePercent = calculateChangePercent(product.currentPrice, product.newPrice);
+                    if (currentChangeFilter === 'increased') {
+                        matchesChange = product.newPrice > product.currentPrice;
+                    } else if (currentChangeFilter === 'decreased') {
+                        matchesChange = product.newPrice < product.currentPrice;
+                    } else if (currentChangeFilter === 'unchanged') {
+                        matchesChange = product.newPrice === product.currentPrice;
+                    }
+                }
+                
+                return matchesCategory && matchesSearch && matchesChange;
+            });
+        }
+
+        // Hàm lọc sản phẩm
+        function filterProducts() {
+            currentCategoryFilter = document.getElementById('categoryFilter').value;
+            currentChangeFilter = document.getElementById('changeFilter').value;
+            currentSearchTerm = document.getElementById('searchInput').value.toLowerCase();
+            currentPage = 1;
+            renderPriceTable();
+        }
+
+        // Hàm lọc theo loại thay đổi
+        function filterByChangeType(type) {
+            document.getElementById('changeFilter').value = type;
+            filterProducts();
+        }
+
+        // Hàm cập nhật thông tin phân trang
+        function updatePaginationInfo(totalItems) {
+            document.getElementById('totalProducts').textContent = totalItems;
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = Math.ceil(totalItems / itemsPerPage);
+            
+            const start = (currentPage - 1) * itemsPerPage + 1;
+            const end = Math.min(currentPage * itemsPerPage, totalItems);
+            document.getElementById('displayRange').textContent = `${start}-${end}`;
+        }
+
+        // Hàm chuyển trang
+        function changePage(direction) {
+            const totalPages = Math.ceil(filterProductsData().length / itemsPerPage);
+            
+            if (direction === 'prev' && currentPage > 1) {
+                currentPage--;
+            } else if (direction === 'next' && currentPage < totalPages) {
+                currentPage++;
+            }
+            
+            renderPriceTable();
+        }
+
+        // Hàm cập nhật thống kê giá
+        function updatePriceStats() {
+            const stats = {
+                updated: products.filter(p => p.newPrice !== p.currentPrice).length,
+                increased: products.filter(p => p.newPrice > p.currentPrice).length,
+                decreased: products.filter(p => p.newPrice < p.currentPrice).length,
+                pending: products.filter(p => p.newPrice !== p.currentPrice).length
+            };
+
+            document.getElementById('updatedPrices').textContent = stats.updated;
+            document.getElementById('increasedPrices').textContent = stats.increased;
+            document.getElementById('decreasedPrices').textContent = stats.decreased;
+            document.getElementById('pendingPrices').textContent = stats.pending;
+        }
+
+        // Hàm lấy tên danh mục
+        function getCategoryName(categoryCode) {
+            const categories = {
+                'tpc': 'Thực phẩm chức năng',
+                'medical': 'Vật phẩm y tế',
+                'prescription': 'Thuốc kê đơn',
+                'otc': 'Thuốc không kê đơn'
+            };
+            return categories[categoryCode] || categoryCode;
+        }
+
+        // Hàm cập nhật giá sản phẩm
+        function updateProductPrice(index, newPrice) {
+            products[index].newPrice = parseInt(newPrice) || products[index].currentPrice;
+            changedProducts.add(products[index].id);
+            renderPriceTable();
+        }
+
+        // Hàm lưu giá sản phẩm
+        function saveProductPrice(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product && product.newPrice !== product.currentPrice) {
+                if (confirm(`Xác nhận cập nhật giá từ ${formatPrice(product.currentPrice)} lên ${formatPrice(product.newPrice)}?`)) {
+                    product.currentPrice = product.newPrice;
+                    changedProducts.delete(productId);
+                    renderPriceTable();
+                    alert('Giá sản phẩm đã được cập nhật!');
+                }
+            }
+        }
+
+        // Hàm hủy thay đổi giá
+        function discardPriceChange(index) {
+            products[index].newPrice = products[index].currentPrice;
+            changedProducts.delete(products[index].id);
+            renderPriceTable();
+        }
+
+        // Hàm lưu tất cả thay đổi
+        function saveAllChanges() {
+            if (changedProducts.size === 0) {
+                alert('Không có thay đổi nào để lưu!');
+                return;
+            }
+
+            if (confirm(`Xác nhận lưu ${changedProducts.size} thay đổi giá?`)) {
+                products.forEach(product => {
+                    if (changedProducts.has(product.id)) {
+                        product.currentPrice = product.newPrice;
+                    }
+                });
+                changedProducts.clear();
+                renderPriceTable();
+                alert(`Đã lưu ${changedProducts.size} thay đổi giá!`);
+            }
+        }
+
+        // Hàm hiển thị lịch sử giá
+        function showPriceHistory(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // Dữ liệu lịch sử mẫu
+                const priceHistory = [
+                    { date: '2023-12-01', price: 140000, reason: 'Điều chỉnh theo thị trường' },
+                    { date: '2023-11-15', price: 145000, reason: 'Tăng giá nhập' },
+                    { date: '2023-10-01', price: 135000, reason: 'Khuyến mãi' }
+                ];
+
+                document.getElementById('modalContent').innerHTML = `
+                    <h4>Lịch sử giá: ${product.name}</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 10px; text-align: left;">Ngày</th>
+                                <th style="padding: 10px; text-align: right;">Giá</th>
+                                <th style="padding: 10px; text-align: left;">Lý do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${priceHistory.map(history => `
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${new Date(history.date).toLocaleDateString('vi-VN')}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${formatPrice(history.price)}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${history.reason}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+                document.getElementById('priceModal').style.display = 'block';
+            }
+        }
+
+        // Hàm load so sánh đối thủ
+        function loadCompetitorComparison() {
+            const comparisonContainer = document.getElementById('comparisonList');
+            const productsToCompare = products.slice(0, 3); // So sánh 3 sản phẩm đầu tiên
+            
+            comparisonContainer.innerHTML = productsToCompare.map(product => {
+                const competitorPrices = Object.values(product.competitorPrices);
+                const avgCompetitorPrice = competitorPrices.reduce((a, b) => a + b, 0) / competitorPrices.length;
+                const difference = product.newPrice - avgCompetitorPrice;
+                const differencePercent = ((difference / avgCompetitorPrice) * 100).toFixed(1);
+                
+                return `
+                    <div class="comparison-item">
+                        <div>
+                            <strong>${product.name}</strong>
+                            <div style="font-size: 12px; color: #666;">
+                                Giá trung bình đối thủ: ${formatPrice(avgCompetitorPrice)}
+                            </div>
+                        </div>
+                        <div>
+                            <span class="price-difference ${difference <= 0 ? 'difference-positive' : 'difference-negative'}">
+                                ${difference <= 0 ? '-' : '+'}${Math.abs(differencePercent)}%
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Hàm kiểm tra cảnh báo giá
+        function checkPriceAlerts() {
+            const alerts = [];
+            
+            products.forEach(product => {
+                // Cảnh báo lợi nhuận thấp
+                if (product.margin < 10) {
+                    alerts.push({
+                        type: 'low-margin',
+                        message: `${product.name} có lợi nhuận thấp (${product.margin}%)`,
+                        productId: product.id
+                    });
+                }
+                
+                // Cảnh báo giá cao hơn đối thủ
+                const minCompetitorPrice = Math.min(...Object.values(product.competitorPrices));
+                if (product.newPrice > minCompetitorPrice * 1.2) {
+                    alerts.push({
+                        type: 'high-price',
+                        message: `${product.name} có giá cao hơn 20% so với đối thủ`,
+                        productId: product.id
+                    });
+                }
+            });
+            
+            if (alerts.length > 0) {
+                const alertsContainer = document.getElementById('alertsList');
+                alertsContainer.innerHTML = alerts.map(alert => `
+                    <div class="alert-item">
+                        <div>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            ${alert.message}
+                        </div>
+                        <button class="btn btn-primary" onclick="viewProduct(${alert.productId})">
+                            <i class="fas fa-edit"></i> Điều chỉnh
+                        </button>
+                    </div>
+                `).join('');
+                
+                document.getElementById('priceAlerts').style.display = 'block';
+            }
+        }
+
+        // Hàm xử lý bulk update form
+        document.getElementById('bulkUpdateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const updateType = document.getElementById('updateType').value;
+            const updateValue = parseFloat(document.getElementById('updateValue').value);
+            const updateUnit = document.getElementById('updateUnit').value;
+            const category = document.getElementById('updateCategory').value;
+            
+            if (!updateValue || isNaN(updateValue)) {
+                alert('Vui lòng nhập giá trị hợp lệ!');
+                return;
+            }
+            
+            let productsToUpdate = products;
+            if (category) {
+                productsToUpdate = products.filter(p => p.category === category);
+            }
+            
+            if (productsToUpdate.length === 0) {
+                alert('Không có sản phẩm nào phù hợp để cập nhật!');
+                return;
+            }
+            
+            if (confirm(`Xác nhận cập nhật giá cho ${productsToUpdate.length} sản phẩm?`)) {
+                productsToUpdate.forEach(product => {
+                    let newPrice = product.currentPrice;
+                    
+                    switch (updateType) {
+                        case 'increase':
+                            newPrice = updateUnit === 'percent' ? 
+                                product.currentPrice * (1 + updateValue / 100) : 
+                                product.currentPrice + updateValue;
+                            break;
+                        case 'decrease':
+                            newPrice = updateUnit === 'percent' ? 
+                                product.currentPrice * (1 - updateValue / 100) : 
+                                product.currentPrice - updateValue;
+                            break;
+                        case 'set':
+                            newPrice = updateValue;
+                            break;
+                        case 'margin':
+                            const targetMargin = updateValue / 100;
+                            newPrice = product.cost / (1 - targetMargin);
+                            break;
+                    }
+                    
+                    product.newPrice = Math.round(newPrice);
+                    changedProducts.add(product.id);
+                });
+                
+                renderPriceTable();
+                alert(`Đã cập nhật giá cho ${productsToUpdate.length} sản phẩm!`);
+            }
+        });
+
+        // Hàm toggle fields trong bulk update
+        function toggleUpdateFields() {
+            const updateType = document.getElementById('updateType').value;
+            const valueLabel = document.getElementById('updateValueLabel');
+            
+            switch (updateType) {
+                case 'increase':
+                    valueLabel.textContent = 'Giá trị tăng *';
+                    break;
+                case 'decrease':
+                    valueLabel.textContent = 'Giá trị giảm *';
+                    break;
+                case 'set':
+                    valueLabel.textContent = 'Giá mới *';
+                    break;
+                case 'margin':
+                    valueLabel.textContent = 'Tỷ lệ lợi nhuận (%) *';
+                    break;
+                default:
+                    valueLabel.textContent = 'Giá trị *';
+            }
+        }
+
+        // Hàm xem trước bulk update
+        function previewBulkUpdate() {
+            alert('Tính năng xem trước đang được phát triển...');
+        }
+
+        // Khởi chạy khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('adminUsername') || 'Admin';
+            document.querySelector('.user-avatar').textContent = username.charAt(0).toUpperCase();
+            document.querySelector('.user-info span').textContent = `Xin chào, ${username}`;
+            
+            initializeProducts();
+            renderPriceTable();
+            
+            // Đóng modal khi click outside
+            const modal = document.getElementById('priceModal');
+            const closeBtn = document.querySelector('.close');
+            
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminUsername');
+            window.location.href = 'admin-login.html';
+        }
+    </script>
+</body>
+</html>

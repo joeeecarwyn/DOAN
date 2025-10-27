@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm - Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header và Navigation styles giống các trang khác */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container, .nav-container, .main-container, .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo span {
+            font-size: 32px;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar form {
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .search-bar button {
+            padding: 12px 20px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background: #15552c;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .user-actions a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav {
+            background-color: var(--primary-dark);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Main Content */
+        .main-container {
+            margin: 30px auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        .search-results-header {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .search-term {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .results-count {
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        .advanced-search {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .advanced-search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .products-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: #fafafa;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .product-badge.new {
+            background: #3498db;
+        }
+
+        .product-badge.sale {
+            background: #e74c3c;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            padding: 10px;
+        }
+
+        .product-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .product-original-price {
+            color: var(--text-light);
+            text-decoration: line-through;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            margin-bottom: 10px;
+        }
+
+        .rating-star {
+            color: #ddd;
+        }
+
+        .rating-star.filled {
+            color: #ffc107;
+        }
+
+        .add-to-cart {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart:hover {
+            background: var(--primary-dark);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .page-btn.active, .page-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-light);
+            grid-column: 1 / -1;
+        }
+
+        .no-results .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .suggestions {
+            margin-top: 20px;
+        }
+
+        .suggestions h4 {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .suggestion-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .suggestion-item {
+            background: #e8f5e8;
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .suggestion-item:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .footer-section p {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .contact-info i {
+            margin-top: 3px;
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+            padding-left: 0;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9em;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .advanced-search-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                width: 100%;
+                margin: 15px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span>🏥</span>
+                NHÀ THUỐC ONLINE
+            </a>
+            
+            <div class="search-bar">
+                <form id="searchForm">
+                    <input type="text" placeholder="Tìm kiếm thuốc, thực phẩm chức năng..." id="searchInput">
+                    <button type="submit"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </form>
+            </div>
+            
+            <div class="user-actions">
+                <div id="userStatus">
+                    <a href="login.html"><i class="fas fa-user"></i> Đăng nhập</a>
+                    <a href="register.html"><i class="fas fa-edit"></i> Đăng ký</a>
+                </div>
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i> Giỏ hàng <span class="cart-count">0</span></a>
+                <a href="order-history.html"><i class="fas fa-box"></i> Đơn hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)"><i class="fas fa-th-large"></i> Danh mục sản phẩm</a>
+                    <div class="dropdown-content">
+                        <a href="functional-foods.html"><i class="fas fa-pills"></i> TPCN</a>
+                        <a href="medical-supplies.html"><i class="fas fa-stethoscope"></i> Vật phẩm Y tế</a>
+                        <a href="prescription-medicine.html"><i class="fas fa-file-prescription"></i> Thuốc kê đơn</a>
+                        <a href="over-the-counter-medication.html"><i class="fas fa-capsules"></i> Thuốc không kê đơn</a>
+                        <a href="health-consultation.html"><i class="fas fa-heartbeat"></i> Tư vấn sức khỏe</a>
+                    </div>
+                </li>
+                <li><a href="functional-foods.html"><i class="fas fa-pills"></i> TPCN</a></li>
+                <li><a href="medical-supplies.html"><i class="fas fa-stethoscope"></i> Vật phẩm Y tế</a></li>
+                <li><a href="prescription-medicine.html"><i class="fas fa-file-prescription"></i> Thuốc kê đơn</a></li>
+                <li><a href="over-the-counter-medication.html"><i class="fas fa-capsules"></i> Thuốc không kê đơn</a></li>
+                <li><a href="health-consultation.html"><i class="fas fa-heartbeat"></i> Tư vấn sức khỏe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Kết quả tìm kiếm</span>
+        </div>
+        
+        <div class="search-results-header">
+            <h1>Kết quả tìm kiếm cho: <span class="search-term" id="searchTermDisplay">vitamin</span></h1>
+            <div class="results-count" id="resultsCount">Đang tìm kiếm...</div>
+            
+            <div class="advanced-search">
+                <h3><i class="fas fa-search-plus"></i> Tìm kiếm nâng cao</h3>
+                <form class="advanced-search-form" id="advancedSearchForm">
+                    <div class="form-group">
+                        <label for="categoryFilter">Danh mục</label>
+                        <select id="categoryFilter">
+                            <option value="">Tất cả danh mục</option>
+                            <option value="functional-foods">Thực phẩm chức năng</option>
+                            <option value="medical-supplies">Vật phẩm y tế</option>
+                            <option value="prescription-medicine">Thuốc kê đơn</option>
+                            <option value="over-the-counter-medication">Thuốc không kê đơn</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="minPrice">Giá từ</label>
+                        <input type="number" id="minPrice" placeholder="VNĐ" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxPrice">Đến</label>
+                        <input type="number" id="maxPrice" placeholder="VNĐ" min="0">
+                    </div>
+                    <button type="submit" class="search-btn">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="products-section">
+            <div class="products-header">
+                <div class="sort-options">
+                    <span>Sắp xếp theo:</span>
+                    <select class="sort-select" id="sortSelect">
+                        <option value="relevance">Liên quan nhất</option>
+                        <option value="price-asc">Giá tăng dần</option>
+                        <option value="price-desc">Giá giảm dần</option>
+                        <option value="name">Tên A-Z</option>
+                        <option value="rating">Đánh giá cao nhất</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Về chúng tôi</h3>
+                <p>Nhà Thuốc Online với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe, cam kết mang đến những sản phẩm chất lượng nhất với giá cả hợp lý nhất cho khách hàng.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/thailionel2504" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/Trngquc76951Thi?s=09" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/thailionel2504?igsh=aWhpaTB6NmozNHc5" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/?app=desktop&hl=vi" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="functional-foods.html">Thực phẩm chức năng</a></li>
+                    <li><a href="medical-supplies.html">Vật phẩm y tế</a></li>
+                    <li><a href="prescription-medicine.html">Thuốc kê đơn</a></li>
+                    <li><a href="over-the-counter-medication.html">Thuốc không kê đơn</a></li>
+                    <li><a href="health-consultation.html">Tư vấn sức khỏe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Chính sách</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">Chính sách bảo mật</a></li>
+                    <li><a href="return-policy.html">Chính sách đổi trả</a></li>
+                    <li><a href="shipping-policy.html">Chính sách vận chuyển</a></li>
+                    <li><a href="payment-policy.html">Chính sách thanh toán</a></li>
+                    <li><a href="terms.html">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liên hệ</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.HCM</li>
+                    <li><i class="fas fa-phone"></i> (028) 1234 5678</li>
+                    <li><i class="fas fa-envelope"></i> info@nhathuoconline.com</li>
+                    <li><i class="fas fa-clock"></i> Mở cửa: 8:00 - 22:00 hàng ngày</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Nhà Thuốc Online. Tất cả các quyền được bảo lưu. | Phát triển bởi Team Dev
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Thông báo</span>
+    </div>
+
+    <script>
+        // Dữ liệu mẫu sản phẩm
+        const allProducts = [
+            { 
+                id: 1, 
+                name: "Vitamin C 1000mg Nature Made", 
+                price: 150000, 
+                originalPrice: 180000,
+                category: "functional-foods", 
+                brand: "nature-made", 
+                rating: 5, 
+                image: "https://tse2.mm.bing.net/th/id/OIP.VHQ2vXlMe-DHnx-ImU9QDQHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3", 
+                badge: "sale" 
+            },
+            { 
+                id: 2, 
+                name: "Omega-3 1000mg Kirkland", 
+                price: 250000, 
+                category: "functional-foods", 
+                brand: "kirkland", 
+                rating: 4, 
+                image: "https://tse2.mm.bing.net/th/id/OIP.cAjouR4z-m45fBDlJKaYFwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3", 
+                badge: "new" 
+            },
+            { 
+                id: 3, 
+                name: "Vitamin D3 1000IU", 
+                price: 120000, 
+                category: "functional-foods", 
+                brand: "nature-made", 
+                rating: 4, 
+                image: "https://s.ecrater.com/stores/503234/5fdfd4b69c8dc_503234b.jpg", 
+                badge: "" 
+            },
+            { 
+                id: 4, 
+                name: "Collagen 3000mg", 
+                price: 350000, 
+                category: "functional-foods", 
+                brand: "swisse", 
+                rating: 5, 
+                image: "https://www.corposflex.com/image/cache/data/Corposflex/essence-collagen-3000mg-90-tablets-600x600.jpg", 
+                badge: "sale" 
+            },
+            { 
+                id: 5, 
+                name: "Probiotic 10 tỷ CFU", 
+                price: 280000, 
+                category: "functional-foods", 
+                brand: "blackmores", 
+                rating: 4, 
+                image: "https://tse2.mm.bing.net/th/id/OIP.L80Qys2kjdPYDhxTkOQZAwHaNv?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3", 
+                badge: "" 
+            },
+            { 
+                id: 6, 
+                name: "Kẽm 50mg", 
+                price: 85000, 
+                category: "functional-foods", 
+                brand: "nature-made", 
+                rating: 4, 
+                image: "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmpme5s9l3lfd", 
+                badge: "" 
+            },
+            { 
+                id: 7, 
+                name: "Vitamin B Complex", 
+                price: 180000, 
+                category: "functional-foods", 
+                brand: "kirkland", 
+                rating: 5, 
+                image: "https://th.bing.com/th/id/R.f0c9e9d5e9dd6dcd929c18b814fb703b?rik=7XGVf%2bFK5l6BlA&riu=http%3a%2f%2fg-ecx.images-amazon.com%2fimages%2fG%2f01%2faplus%2fdetail-page%2fB005D0DTZK_1_lg.jpg&ehk=FeO405u6wlV72MWOSwNz4BPxdpt0NagV2E%2bZbinllEQ%3d&risl=&pid=ImgRaw&r=0", 
+                badge: "" 
+            },
+            { 
+                id: 8, 
+                name: "DHA 500mg", 
+                price: 320000, 
+                category: "functional-foods", 
+                brand: "blackmores", 
+                rating: 4, 
+                image: "https://tse2.mm.bing.net/th/id/OIP.E8wJ91liJOMjYT-GuJ5xFwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3", 
+                badge: "new" 
+            },
+            { 
+                id: 9, 
+                name: "Khẩu trang y tế 4 lớp", 
+                price: 25000, 
+                category: "medical-supplies", 
+                brand: "local", 
+                rating: 4, 
+                image: "https://cdn.nhathuoclongchau.com.vn/unsafe/https://cms-prod.s3-sgn09.fptcloud.com/00028861_khau_trang_y_te_cncs_4_lop_50_cai_3934_62b9_large_b3b2e21d6f.JPG", 
+                badge: "sale" 
+            },
+            { 
+                id: 10, 
+                name: "Nhiệt kế điện tử Omron", 
+                price: 280000, 
+                category: "medical-supplies", 
+                brand: "omron", 
+                rating: 5, 
+                image: "https://www.ykhoakimyen.com/upload/images/21-nhiet-ke-dien-tu-omron-mc-246.jpg", 
+                badge: "new" 
+            },
+            { 
+                id: 11, 
+                name: "Băng gạc y tế vô trùng", 
+                price: 35000, 
+                category: "medical-supplies", 
+                brand: "local", 
+                rating: 4, 
+                image: "https://ykhoathammyquangminh.com/image/catalog/IMG_20191206_184500.jpg", 
+                badge: "" 
+            },
+            { 
+                id: 12, 
+                name: "Máy đo huyết áp", 
+                price: 450000, 
+                category: "medical-supplies", 
+                brand: "omron", 
+                rating: 5, 
+                image: "https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/mtsp/gia-dung/may-do-huyet-ap-tu-dong-omron-hem-7143t1-co-kieu-dang-nho-gon.jpg", 
+                badge: "" 
+            },
+            { 
+                id: 13, 
+                name: "Amoxicillin 500mg", 
+                price: 120000, 
+                category: "prescription-medicine", 
+                brand: "generic", 
+                rating: 0, 
+                image: "https://tse3.mm.bing.net/th/id/OIP.pe9PzhNHVRZOfujweFKRqAHaFl?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3", 
+                badge: "" 
+            },
+            { 
+                id: 14, 
+                name: "Paracetamol 500mg", 
+                price: 50000, 
+                category: "prescription-medicine", 
+                brand: "generic", 
+                rating: 0, 
+                image: "https://th.bing.com/th/id/R.496b6159be56f6dd97dacd5167e7a531?rik=LMtsTor5Ny27sw&riu=http%3a%2f%2fimages-its.chemistdirect.co.uk%2fParacetamol-500mg-caplets-10456.jpg%3fo%3dwrwi2k9dA2Xo58Fh8cBcF%24swYG8j%26V%3dxCFy&ehk=0mMum8k8RtzYrsYL5gNaodlmEkw0MFoXtiry%2baMGIeI%3d&risl=&pid=ImgRaw&r=0", 
+                badge: "" 
+            },
+            { 
+                id: 15, 
+                name: "Panadol Extra", 
+                price: 75000, 
+                category: "over-the-counter-medication", 
+                brand: "gsK", 
+                rating: 4, 
+                image: "https://abclive1.s3.amazonaws.com/2c2edf5e-aa5c-4940-b5c6-6eb1ac32a016/productimage/5099627630375___XL.jpg", 
+                badge: "" 
+            },
+            { 
+                id: 16, 
+                name: "Tiffy", 
+                price: 45000, 
+                category: "over-the-counter-medication", 
+                brand: "generic", 
+                rating: 4, 
+                image: "https://cdn.nhathuoclongchau.com.vn/unsafe/https://cms-prod.s3-sgn09.fptcloud.com/IMG_6379_6d8abac855.jpg", 
+                badge: "" 
+            }
+        ];
+
+        // Khởi tạo giỏ hàng nếu chưa có
+        if (!localStorage.getItem('cart')) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+
+        // Cập nhật số lượng giỏ hàng
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(element => {
+                element.textContent = totalItems;
+            });
+        }
+
+        // Hiển thị thông báo
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Lấy tham số URL
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                q: params.get('q') || '',
+                category: params.get('category') || '',
+                minPrice: params.get('minPrice') || '',
+                maxPrice: params.get('maxPrice') || '',
+                sort: params.get('sort') || 'relevance',
+                page: parseInt(params.get('page')) || 1
+            };
+        }
+
+        // Tìm kiếm sản phẩm
+        function searchProducts() {
+            const params = getUrlParams();
+            let results = allProducts;
+            
+            // Tìm kiếm theo từ khóa
+            if (params.q) {
+                results = results.filter(product => 
+                    product.name.toLowerCase().includes(params.q.toLowerCase())
+                );
+            }
+            
+            // Lọc theo danh mục
+            if (params.category) {
+                results = results.filter(product => product.category === params.category);
+            }
+            
+            // Lọc theo giá
+            if (params.minPrice) {
+                results = results.filter(product => product.price >= parseInt(params.minPrice));
+            }
+            if (params.maxPrice) {
+                results = results.filter(product => product.price <= parseInt(params.maxPrice));
+            }
+            
+            // Sắp xếp
+            switch (params.sort) {
+                case 'price-asc':
+                    results.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    results.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    results.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'rating':
+                    results.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'relevance':
+                default:
+                    // Sắp xếp theo độ liên quan (từ khóa xuất hiện sớm trong tên)
+                    if (params.q) {
+                        results.sort((a, b) => {
+                            const aIndex = a.name.toLowerCase().indexOf(params.q.toLowerCase());
+                            const bIndex = b.name.toLowerCase().indexOf(params.q.toLowerCase());
+                            return aIndex - bIndex;
+                        });
+                    }
+                    break;
+            }
+            
+            return results;
+        }
+
+        // Tạo HTML rating stars
+        function generateRatingStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star rating-star filled"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt rating-star filled"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star rating-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Hiển thị kết quả tìm kiếm
+        function displaySearchResults(products, page = 1, productsPerPage = 8) {
+            const productsGrid = document.getElementById('productsGrid');
+            const pagination = document.getElementById('pagination');
+            const resultsCount = document.getElementById('resultsCount');
+            const searchTermDisplay = document.getElementById('searchTermDisplay');
+            
+            const params = getUrlParams();
+            searchTermDisplay.textContent = params.q || 'tất cả sản phẩm';
+            
+            // Tính toán phân trang
+            const totalPages = Math.ceil(products.length / productsPerPage);
+            const startIndex = (page - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const paginatedProducts = products.slice(startIndex, endIndex);
+            
+            // Hiển thị số lượng kết quả
+            resultsCount.textContent = `Tìm thấy ${products.length} sản phẩm`;
+            
+            // Hiển thị sản phẩm
+            if (paginatedProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="no-results">
+                        <div class="icon"><i class="fas fa-search"></i></div>
+                        <h3>Không tìm thấy sản phẩm nào</h3>
+                        <p>Hãy thử điều chỉnh từ khóa tìm kiếm hoặc bộ lọc.</p>
+                        <div class="suggestions">
+                            <h4>Gợi ý:</h4>
+                            <div class="suggestion-list">
+                                <a href="functional-foods.html" class="suggestion-item">Thực phẩm chức năng</a>
+                                <a href="medical-supplies.html" class="suggestion-item">Vật phẩm y tế</a>
+                                <a href="over-the-counter-medication.html" class="suggestion-item">Thuốc không kê đơn</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                productsGrid.innerHTML = paginatedProducts.map(product => `
+                    <div class="product-card" data-id="${product.id}">
+                        ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'new' ? 'Mới' : product.badge === 'sale' ? 'Giảm giá' : ''}</div>` : ''}
+                        <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/200x180?text=No+Image'">
+                        <h3>${product.name}</h3>
+                        <div class="product-rating">
+                            ${generateRatingStars(product.rating)}
+                        </div>
+                        <div class="product-price">
+                            ${product.originalPrice ? `<span class="product-original-price">${formatPrice(product.originalPrice)}</span>` : ''}
+                            ${formatPrice(product.price)}
+                        </div>
+                        <button class="add-to-cart" data-id="${product.id}">
+                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            // Hiển thị phân trang
+            displayPagination(totalPages, page);
+            
+            // Thêm sự kiện cho nút thêm vào giỏ hàng
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-id');
+                    const product = products.find(p => p.id == productId);
+                    
+                    if (product) {
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const existingItem = cart.find(item => item.id == productId);
+                        
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            cart.push({
+                                ...product,
+                                quantity: 1
+                            });
+                        }
+                        
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        showNotification(`Đã thêm ${product.name} vào giỏ hàng!`);
+                    }
+                });
+            });
+            
+            // Thêm sự kiện click cho sản phẩm
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.add-to-cart')) {
+                        const productId = this.getAttribute('data-id');
+                        window.location.href = `product-details.html?id=${productId}`;
+                    }
+                });
+            });
+        }
+
+        // Format price
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(price);
+        }
+
+        // Hiển thị phân trang
+        function displayPagination(totalPages, currentPage) {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Nút Previous
+            if (currentPage > 1) {
+                paginationHTML += `<button class="page-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
+            }
+            
+            // Các nút trang
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    paginationHTML += `<button class="page-btn active" data-page="${i}">${i}</button>`;
+                } else {
+                    paginationHTML += `<button class="page-btn" data-page="${i}">${i}</button>`;
+                }
+            }
+            
+            // Nút Next
+            if (currentPage < totalPages) {
+                paginationHTML += `<button class="page-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
+            }
+            
+            pagination.innerHTML = paginationHTML;
+            
+            // Thêm sự kiện cho nút phân trang
+            document.querySelectorAll('.page-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const page = parseInt(this.getAttribute('data-page'));
+                    const params = getUrlParams();
+                    const url = new URL(window.location);
+                    url.searchParams.set('page', page);
+                    window.location.href = url.toString();
+                });
+            });
+        }
+
+        // Xử lý tìm kiếm nâng cao
+        document.getElementById('advancedSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('categoryFilter').value;
+            const minPrice = document.getElementById('minPrice').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+            const params = getUrlParams();
+            
+            const url = new URL(window.location);
+            
+            if (category) url.searchParams.set('category', category);
+            else url.searchParams.delete('category');
+            
+            if (minPrice) url.searchParams.set('minPrice', minPrice);
+            else url.searchParams.delete('minPrice');
+            
+            if (maxPrice) url.searchParams.set('maxPrice', maxPrice);
+            else url.searchParams.delete('maxPrice');
+            
+            url.searchParams.set('page', '1');
+            window.location.href = url.toString();
+        });
+
+        // Xử lý sắp xếp
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            const url = new URL(window.location);
+            url.searchParams.set('sort', this.value);
+            url.searchParams.set('page', '1');
+            window.location.href = url.toString();
+        });
+
+        // Xử lý tìm kiếm chính
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(searchTerm)}`;
+            }
+        });
+
+        // Kiểm tra trạng thái đăng nhập
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const userStatus = document.getElementById('userStatus');
+            
+            if (user) {
+                userStatus.innerHTML = `
+                    <a href="customer-info.html"><i class="fas fa-user"></i> ${user.fullName}</a>
+                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                `;
+                
+                document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    checkLoginStatus();
+                    showNotification('Đã đăng xuất thành công!');
+                });
+            }
+        }
+
+        // Khởi tạo
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = getUrlParams();
+            
+            updateCartCount();
+            checkLoginStatus();
+            
+            // Thiết lập giá trị hiện tại cho bộ lọc
+            document.getElementById('categoryFilter').value = params.category;
+            document.getElementById('minPrice').value = params.minPrice;
+            document.getElementById('maxPrice').value = params.maxPrice;
+            document.getElementById('sortSelect').value = params.sort;
+            document.getElementById('searchInput').value = params.q;
+            
+            // Hiển thị kết quả tìm kiếm
+            const searchResults = searchProducts();
+            displaySearchResults(searchResults, params.page);
+        });
+    </script>
+</body>
+</html>

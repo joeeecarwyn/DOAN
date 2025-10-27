@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - Nhà Thuốc Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c8c4d;
+            --primary-dark: #1e6e3d;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header và Navigation styles giống các trang khác */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container, .nav-container, .main-container, .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo span {
+            font-size: 32px;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar form {
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .search-bar button {
+            padding: 12px 20px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background: #15552c;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .user-actions a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav {
+            background-color: var(--primary-dark);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Main Content */
+        .main-container {
+            margin: 30px auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .product-gallery {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 10px;
+        }
+
+        .product-info {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+
+        .product-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .product-category {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .product-price {
+            font-size: 1.8em;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .product-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .meta-value {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            flex: 2;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            flex: 1;
+        }
+
+        .btn-outline:hover {
+            background: #e8f5e8;
+        }
+
+        .product-tabs {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .tab-headers {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-header {
+            padding: 20px 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-header.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .specs-table td {
+            padding: 15px 10px;
+        }
+
+        .specs-table td:first-child {
+            font-weight: 600;
+            color: var(--text-light);
+            width: 30%;
+        }
+
+        .review-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .review-author {
+            font-weight: 600;
+        }
+
+        .review-date {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .review-rating {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .related-products {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            padding: 10px;
+        }
+
+        .product-card-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-card-price {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-card-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .product-card-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .footer-section p {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .contact-info i {
+            margin-top: 3px;
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+            padding-left: 0;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9em;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-headers {
+                flex-direction: column;
+            }
+            
+            .tab-header {
+                text-align: center;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                width: 100%;
+                margin: 15px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span>🏥</span>
+                NHÀ THUỐC ONLINE
+            </a>
+            
+            <div class="search-bar">
+                <form id="searchForm">
+                    <input type="text" placeholder="Tìm kiếm thuốc, thực phẩm chức năng..." id="searchInput">
+                    <button type="submit"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </form>
+            </div>
+            
+            <div class="user-actions">
+                <div id="userStatus">
+                    <a href="login.html"><i class="fas fa-user"></i> Đăng nhập</a>
+                    <a href="register.html"><i class="fas fa-edit"></i> Đăng ký</a>
+                </div>
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i> Giỏ hàng <span class="cart-count">0</span></a>
+                <a href="order-history.html"><i class="fas fa-box"></i> Đơn hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)"><i class="fas fa-th-large"></i> Danh mục sản phẩm</a>
+                    <div class="dropdown-content">
+                        <a href="functional-foods.html"><i class="fas fa-pills"></i> TPCN</a>
+                        <a href="medical-supplies.html"><i class="fas fa-stethoscope"></i> Vật phẩm Y tế</a>
+                        <a href="prescription-medicine.html"><i class="fas fa-file-prescription"></i> Thuốc kê đơn</a>
+                        <a href="over-the-counter-medication.html"><i class="fas fa-capsules"></i> Thuốc không kê đơn</a>
+                        <a href="health-consultation.html"><i class="fas fa-heartbeat"></i> Tư vấn sức khỏe</a>
+                    </div>
+                </li>
+                <li><a href="functional-foods.html"><i class="fas fa-pills"></i> TPCN</a></li>
+                <li><a href="medical-supplies.html"><i class="fas fa-stethoscope"></i> Vật phẩm Y tế</a></li>
+                <li><a href="prescription-medicine.html"><i class="fas fa-file-prescription"></i> Thuốc kê đơn</a></li>
+                <li><a href="over-the-counter-medication.html"><i class="fas fa-capsules"></i> Thuốc không kê đơn</a></li>
+                <li><a href="health-consultation.html"><i class="fas fa-heartbeat"></i> Tư vấn sức khỏe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="breadcrumb">
+            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="functional-foods.html">Thực phẩm chức năng</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Vitamin C 1000mg</span>
+        </div>
+        
+        <div class="product-detail">
+            <div class="product-gallery">
+                <img src="https://www.naturesaid.co.uk/images/vitamin-c-1000mg-time-release-p245-378_image.jpg" alt="Vitamin C 1000mg Nature Made" class="product-image">
+            </div>
+            
+            <div class="product-info">
+                <h1 class="product-title">Vitamin C 1000mg Nature Made</h1>
+                <span class="product-category">Thực phẩm chức năng</span>
+                <div class="product-price">150.000 VNĐ</div>
+                
+                <div class="product-description">
+                    <p>Vitamin C 1000mg của Nature Made giúp tăng cường hệ miễn dịch, chống oxy hóa và hỗ trợ sản xuất collagen cho da khỏe mạnh.</p>
+                </div>
+                
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Thương hiệu</span>
+                        <span class="meta-value">Nature Made</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Xuất xứ</span>
+                        <span class="meta-value">Mỹ</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Trọng lượng</span>
+                        <span class="meta-value">100 viên</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tình trạng</span>
+                        <span class="meta-value" style="color: var(--primary-color);">Còn hàng</span>
+                    </div>
+                </div>
+                
+                <div class="quantity-selector">
+                    <span>Số lượng:</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn decrease">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" max="10">
+                        <button class="quantity-btn increase">+</button>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="addToCartBtn">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                    </button>
+                    <button class="btn btn-secondary" id="buyNowBtn">
+                        <i class="fas fa-bolt"></i> Mua ngay
+                    </button>
+                    <button class="btn btn-outline" id="addToWishlistBtn">
+                        <i class="far fa-heart"></i> Yêu thích
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="product-tabs">
+            <div class="tab-headers">
+                <div class="tab-header active" data-tab="description">Mô tả sản phẩm</div>
+                <div class="tab-header" data-tab="specifications">Thông số kỹ thuật</div>
+                <div class="tab-header" data-tab="usage">Hướng dẫn sử dụng</div>
+                <div class="tab-header" data-tab="reviews">Đánh giá</div>
+            </div>
+            
+            <div class="tab-content active" id="description">
+                <h3>Thông tin chi tiết</h3>
+                <p>Vitamin C 1000mg của Nature Made là sản phẩm bổ sung vitamin C chất lượng cao, giúp:</p>
+                <ul>
+                    <li>Tăng cường hệ miễn dịch, phòng ngừa cảm lạnh và nhiễm trùng</li>
+                    <li>Chống oxy hóa, bảo vệ tế bào khỏi tổn thương do gốc tự do</li>
+                    <li>Hỗ trợ sản xuất collagen, giúp da săn chắc và khỏe mạnh</li>
+                    <li>Tăng cường hấp thu sắt từ thực phẩm</li>
+                    <li>Hỗ trợ sức khỏe tim mạch</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="specifications">
+                <table class="specs-table">
+                    <tr>
+                        <td>Thành phần chính</td>
+                        <td>Vitamin C (Ascorbic Acid) 1000mg</td>
+                    </tr>
+                    <tr>
+                        <td>Dạng bào chế</td>
+                        <td>Viên nén</td>
+                    </tr>
+                    <tr>
+                        <td>Quy cách đóng gói</td>
+                        <td>Lọ 100 viên</td>
+                    </tr>
+                    <tr>
+                        <td>Đối tượng sử dụng</td>
+                        <td>Người lớn và trẻ em từ 12 tuổi trở lên</td>
+                    </tr>
+                    <tr>
+                        <td>Chứng nhận</td>
+                        <td>FDA, GMP</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h3>Hướng dẫn sử dụng</h3>
+                <p><strong>Liều dùng:</strong> Uống 1 viên mỗi ngày sau bữa ăn.</p>
+                <p><strong>Lưu ý:</strong></p>
+                <ul>
+                    <li>Không sử dụng quá liều khuyến cáo</li>
+                    <li>Tham khảo ý kiến bác sĩ nếu đang mang thai, cho con bú hoặc đang điều trị bệnh</li>
+                    <li>Bảo quản nơi khô ráo, tránh ánh nắng trực tiếp</li>
+                    <li>Để xa tầm tay trẻ em</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="reviews">
+                <h3>Đánh giá từ khách hàng</h3>
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-author">Nguyễn Thị Lan</span>
+                        <span class="review-date">15/12/2023</span>
+                    </div>
+                    <div class="review-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>Sản phẩm rất tốt, tôi cảm thấy khỏe hơn sau 2 tuần sử dụng. Giao hàng nhanh, đóng gói cẩn thận.</p>
+                </div>
+                
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-author">Trần Văn Minh</span>
+                        <span class="review-date">10/12/2023</span>
+                    </div>
+                    <div class="review-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p>Vitamin C chất lượng tốt, viên dễ uống. Tôi sẽ tiếp tục ủng hộ nhà thuốc.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="related-products">
+            <h2 class="section-title">Sản phẩm liên quan</h2>
+            <div class="products-grid">
+                <div class="product-card" data-id="2">
+                    <img src="https://primenutrition.ec/1317-large_default/omega-3-1000mg-60-capsulas.jpg" alt="Omega-3 1000mg Kirkland" class="product-card-image">
+                    <div class="product-card-name">Omega-3 1000mg Kirkland</div>
+                    <div class="product-card-price">250.000 VNĐ</div>
+                    <button class="product-card-btn">Xem chi tiết</button>
+                </div>
+                
+                <div class="product-card" data-id="3">
+                    <img src="https://s.ecrater.com/stores/503234/5fdfd4b69c8dc_503234b.jpg" alt="Vitamin D3 1000IU" class="product-card-image">
+                    <div class="product-card-name">Vitamin D3 1000IU</div>
+                    <div class="product-card-price">120.000 VNĐ</div>
+                    <button class="product-card-btn">Xem chi tiết</button>
+                </div>
+                
+                <div class="product-card" data-id="6">
+                    <img src="https://tse4.mm.bing.net/th/id/OIP.qiJDQlgm8vXWmKTVqhQ30gHaLH?cb=12&w=700&h=1050&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Kẽm 50mg" class="product-card-image">
+                    <div class="product-card-name">Kẽm 50mg</div>
+                    <div class="product-card-price">85.000 VNĐ</div>
+                    <button class="product-card-btn">Xem chi tiết</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Về chúng tôi</h3>
+                <p>Nhà Thuốc Online với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe, cam kết mang đến những sản phẩm chất lượng nhất với giá cả hợp lý nhất cho khách hàng.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/thailionel2504" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/Trngquc76951Thi?s=09" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/thailionel2504?igsh=aWhpaTB6NmozNHc5" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/?app=desktop&hl=vi" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="functional-foods.html">Thực phẩm chức năng</a></li>
+                    <li><a href="medical-supplies.html">Vật phẩm y tế</a></li>
+                    <li><a href="prescription-medicine.html">Thuốc kê đơn</a></li>
+                    <li><a href="over-the-counter-medication.html">Thuốc không kê đơn</a></li>
+                    <li><a href="health-consultation.html">Tư vấn sức khỏe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Chính sách</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">Chính sách bảo mật</a></li>
+                    <li><a href="return-policy.html">Chính sách đổi trả</a></li>
+                    <li><a href="shipping-policy.html">Chính sách vận chuyển</a></li>
+                    <li><a href="payment-policy.html">Chính sách thanh toán</a></li>
+                    <li><a href="terms.html">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liên hệ</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.HCM</li>
+                    <li><i class="fas fa-phone"></i> (028) 1234 5678</li>
+                    <li><i class="fas fa-envelope"></i> info@nhathuoconline.com</li>
+                    <li><i class="fas fa-clock"></i> Mở cửa: 8:00 - 22:00 hàng ngày</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Nhà Thuốc Online. Tất cả các quyền được bảo lưu. | Phát triển bởi Team Dev
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Thông báo</span>
+    </div>
+
+    <script>
+        // Dữ liệu sản phẩm liên quan
+        const relatedProducts = [
+            {
+                id: 2,
+                name: "Omega-3 1000mg Kirkland",
+                price: 250000,
+                category: "functional-foods",
+                image: "https://primenutrition.ec/1317-large_default/omega-3-1000mg-60-capsulas.jpg"
+            },
+            {
+                id: 3,
+                name: "Vitamin D3 1000IU",
+                price: 120000,
+                category: "functional-foods",
+                image: "https://s.ecrater.com/stores/503234/5fdfd4b69c8dc_503234b.jpg"
+            },
+            {
+                id: 6,
+                name: "Kẽm 50mg",
+                price: 85000,
+                category: "functional-foods",
+                image: "https://tse4.mm.bing.net/th/id/OIP.qiJDQlgm8vXWmKTVqhQ30gHaLH?cb=12&w=700&h=1050&rs=1&pid=ImgDetMain&o=7&rm=3"
+            }
+        ];
+
+        // Khởi tạo giỏ hàng nếu chưa có
+        if (!localStorage.getItem('cart')) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+
+        // Cập nhật số lượng giỏ hàng
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(element => {
+                element.textContent = totalItems;
+            });
+        }
+
+        // Hiển thị thông báo
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Xử lý tabs
+        document.querySelectorAll('.tab-header').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Ẩn tất cả tabs
+                document.querySelectorAll('.tab-header').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Hiển thị tab được chọn
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Xử lý số lượng
+        document.querySelector('.quantity-btn.decrease').addEventListener('click', function() {
+            const input = document.querySelector('.quantity-input');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        });
+
+        document.querySelector('.quantity-btn.increase').addEventListener('click', function() {
+            const input = document.querySelector('.quantity-input');
+            if (parseInt(input.value) < 10) {
+                input.value = parseInt(input.value) + 1;
+            }
+        });
+
+        // Thêm vào giỏ hàng
+        document.getElementById('addToCartBtn').addEventListener('click', function() {
+            const quantity = parseInt(document.querySelector('.quantity-input').value);
+            const product = {
+                id: 1,
+                name: "Vitamin C 1000mg Nature Made",
+                price: 150000,
+                category: "functional-foods",
+                image: "https://www.naturesaid.co.uk/images/vitamin-c-1000mg-time-release-p245-378_image.jpg",
+                quantity: quantity
+            };
+            
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push(product);
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`Đã thêm ${quantity} sản phẩm vào giỏ hàng!`);
+        });
+
+        // Mua ngay
+        document.getElementById('buyNowBtn').addEventListener('click', function() {
+            const quantity = parseInt(document.querySelector('.quantity-input').value);
+            const product = {
+                id: 1,
+                name: "Vitamin C 1000mg Nature Made",
+                price: 150000,
+                category: "functional-foods",
+                image: "https://www.naturesaid.co.uk/images/vitamin-c-1000mg-time-release-p245-378_image.jpg",
+                quantity: quantity
+            };
+            
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push(product);
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            window.location.href = 'checkout.html';
+        });
+
+        // Thêm vào danh sách yêu thích
+        document.getElementById('addToWishlistBtn').addEventListener('click', function() {
+            const product = {
+                id: 1,
+                name: "Vitamin C 1000mg Nature Made",
+                price: 150000,
+                category: "functional-foods",
+                image: "https://www.naturesaid.co.uk/images/vitamin-c-1000mg-time-release-p245-378_image.jpg"
+            };
+            
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const existingItem = wishlist.find(item => item.id === product.id);
+            
+            if (!existingItem) {
+                wishlist.push(product);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                showNotification('Đã thêm vào danh sách yêu thích!');
+            } else {
+                showNotification('Sản phẩm đã có trong danh sách yêu thích!', 'info');
+            }
+        });
+
+        // Xử lý sản phẩm liên quan
+        document.querySelectorAll('.product-card-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const productCard = this.closest('.product-card');
+                const productId = productCard.getAttribute('data-id');
+                window.location.href = `product-details.html?id=${productId}`;
+            });
+        });
+
+        // Xử lý click vào sản phẩm liên quan
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('.product-card-btn')) {
+                    const productId = this.getAttribute('data-id');
+                    window.location.href = `product-details.html?id=${productId}`;
+                }
+            });
+        });
+
+        // Kiểm tra trạng thái đăng nhập
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const userStatus = document.getElementById('userStatus');
+            
+            if (user) {
+                userStatus.innerHTML = `
+                    <a href="customer-info.html"><i class="fas fa-user"></i> ${user.fullName}</a>
+                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                `;
+                
+                document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    checkLoginStatus();
+                    showNotification('Đã đăng xuất thành công!');
+                });
+            }
+        }
+
+        // Xử lý tìm kiếm
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(searchTerm)}`;
+            }
+        });
+
+        // Khởi tạo
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
